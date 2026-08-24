@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<title>Colin's Training Log</title>
+<meta name="theme-color" content="#0f1115">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Training Log">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAACqUlEQVR4nO3cMW4aURRA0RC5RxS0ab0KF1lBOi8yXVbgIgtIndZlsokUkSwrEhLi/v8DzDkVhefNPHQZKAy7/eH4AS718X9fALdNQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREImASARE8rDyZJ++fz3zL1+fnhdPm+TuV97tD8cFpzl/8/dOPQtjp02ykZVXvIVdtvypA8dOm2Q7K/sMRDI9oPgi+OfwsdMm2dTK7kAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBESy9Jupl/ny8+Xt8Y9fvwdOm2TsRfZpU7kDkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEhu4N85vj1+fnvcfzLy/bRJxl7kyl8nvoA7EImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkUwP6PXpeeDhY6dNsqmVr/oONHb5NfVEN7fyioAuW+PUUWOnTbKdlXf7w3HBaf46/zty5yw/dtokd7/y0oC4P1f9GYjrJyASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCR/AEZDcbhQXNLYAAAAAElFTkSuQmCC">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAACqUlEQVR4nO3cMW4aURRA0RC5RxS0ab0KF1lBOi8yXVbgIgtIndZlsokUkSwrEhLi/v8DzDkVhefNPHQZKAy7/eH4AS718X9fALdNQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREImASARE8rDyZJ++fz3zL1+fnhdPm+TuV97tD8cFpzl/8/dOPQtjp02ykZVXvIVdtvypA8dOm2Q7K/sMRDI9oPgi+OfwsdMm2dTK7kAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBESy9Jupl/ny8+Xt8Y9fvwdOm2TsRfZpU7kDkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEhu4N85vj1+fnvcfzLy/bRJxl7kyl8nvoA7EImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkUwP6PXpeeDhY6dNsqmVr/oONHb5NfVEN7fyioAuW+PUUWOnTbKdlXf7w3HBaf46/zty5yw/dtokd7/y0oC4P1f9GYjrJyASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkAiIREImASAREIiASAZEIiERAJAIiERCJgEgERCIgEgGRCIhEQCR/AEZDcbhQXNLYAAAAAElFTkSuQmCC">
+<style>
+  :root {
+    --bg: #0f1115;
+    --card: #1a1d24;
+    --card-hi: #22262f;
+    --accent: #5eead4;
+    --accent-dim: #2dd4bf33;
+    --text: #f4f4f5;
+    --text-dim: #9ca3af;
+    --border: #2a2e37;
+    --danger: #f87171;
+    --success: #4ade80;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding-bottom: 80px;
+  }
+  header {
+    padding: 20px 16px 12px;
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 10;
+    border-bottom: 1px solid var(--border);
+  }
+  header h1 { font-size: 20px; margin: 0 0 2px; }
+  header p { margin: 0 0 8px; color: var(--text-dim); font-size: 13px; }
+  .deload-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    color: var(--text-dim);
+  }
+  .deload-toggle input { width: 16px; height: 16px; accent-color: var(--accent); }
+  .deload-banner {
+    background: #f8717133;
+    border: 1px solid var(--danger);
+    color: var(--danger);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .tabs {
+    display: flex;
+    gap: 6px;
+    padding: 10px 16px;
+    overflow-x: auto;
+    background: var(--bg);
+    position: sticky;
+    top: 62px;
+    z-index: 9;
+    border-bottom: 1px solid var(--border);
+  }
+  .tab {
+    flex: 0 0 auto;
+    padding: 8px 14px;
+    border-radius: 20px;
+    background: var(--card);
+    color: var(--text-dim);
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .tab.active { background: var(--accent-dim); color: var(--accent); border-color: var(--accent); }
+  main { padding: 16px; }
+  .day-title { font-size: 17px; font-weight: 700; margin: 4px 0 14px; }
+  .exercise-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+  .exercise-card.done { border-color: var(--success); }
+  .ex-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .ex-name { font-weight: 700; font-size: 15px; }
+  .ex-target { color: var(--text-dim); font-size: 12.5px; margin-top: 2px; }
+  .check-btn {
+    flex: 0 0 auto;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    background: transparent;
+    color: transparent;
+    font-size: 15px;
+    line-height: 1;
+  }
+  .check-btn.checked { background: var(--success); border-color: var(--success); color: #0f1115; }
+  .set-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    align-items: center;
+  }
+  .set-row label { width: 46px; color: var(--text-dim); font-size: 12.5px; }
+  .set-row input {
+    flex: 1;
+    background: var(--card-hi);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 10px;
+    color: var(--text);
+    font-size: 14px;
+    min-width: 0;
+  }
+  .set-row span.x { color: var(--text-dim); font-size: 13px; }
+  .prog-note {
+    font-size: 12px;
+    color: var(--accent);
+    margin-top: 8px;
+    background: var(--accent-dim);
+    padding: 6px 8px;
+    border-radius: 8px;
+  }
+  .save-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+    background: linear-gradient(180deg, transparent, var(--bg) 30%);
+    display: flex;
+    gap: 10px;
+  }
+  .btn {
+    flex: 1;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    font-weight: 700;
+    font-size: 15px;
+  }
+  .btn-primary { background: var(--accent); color: #0f1115; }
+  .btn-secondary { background: var(--card-hi); color: var(--text); border: 1px solid var(--border); }
+  .history-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+  }
+  .history-item .h-date { font-weight: 700; font-size: 14px; }
+  .history-item .h-day { color: var(--accent); font-size: 12.5px; margin-bottom: 6px; }
+  .history-item .h-ex { font-size: 13px; color: var(--text-dim); padding: 2px 0; }
+  .empty { color: var(--text-dim); text-align: center; padding: 40px 20px; font-size: 14px; }
+  .toast {
+    position: fixed;
+    bottom: 90px;
+    left: 5%;
+    right: 5%;
+    background: var(--success);
+    color: #0f1115;
+    padding: 10px 18px;
+    border-radius: 16px;
+    font-weight: 700;
+    font-size: 13px;
+    opacity: 0;
+    transition: opacity 0.25s;
+    pointer-events: none;
+    z-index: 99;
+    text-align: center;
+    word-break: break-word;
+  }
+  .toast.show { opacity: 1; }
+  .weight-input-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .starting-wt {
+    font-size: 11.5px;
+    color: var(--text-dim);
+  }
+  .section-block {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 14px;
+  }
+  .section-title {
+    font-size: 12.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .section-block ul {
+    margin: 0;
+    padding-left: 18px;
+  }
+  .section-block li {
+    font-size: 13.5px;
+    color: var(--text);
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+  .section-block li:last-child { margin-bottom: 0; }
+  .finisher-text {
+    font-size: 13.5px;
+    color: var(--text);
+    line-height: 1.4;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Training Log</h1>
+  <p id="subhead">Full Body A/B/C/D + conditioning</p>
+  <label class="deload-toggle">
+    <input type="checkbox" id="deloadCheck">
+    <span>Deload week (–40% volume, –20% intensity)</span>
+  </label>
+</header>
+
+<div class="tabs" id="tabs"></div>
+
+<main id="main"></main>
+
+<div class="save-bar">
+  <button class="btn btn-secondary" id="historyBtn" disabled>History</button>
+  <button class="btn btn-primary" id="saveBtn" disabled>Loading…</button>
+</div>
+
+<div class="toast" id="toast">Saved ✓</div>
+
+<script>
+// ---------- Program data ----------
+const PROGRAM = {
+  "Day 1": {
+    label: "Full Body A — Strength Focus",
+    warmup: [
+      "Bike or row, easy pace – 3 min (raise core temp)",
+      "Bodyweight squats – 10 reps (groove squat pattern)",
+      "Glute bridges – 12 reps (activate glutes before squat/deadlift)",
+      "World's greatest stretch – 5 each side (open hips for squat & deadlift)",
+      "Empty bar or light DB good mornings – 10 reps (prime hamstrings/low back)"
+    ],
+    exercises: [
+      { name: "Back Squat", target: "3 × 5–8", start: "80 lbs", prog: "Stay here until 3×8, then +5–10 lbs" },
+      { name: "Bench Press", target: "3 × 5–8", start: "55 lbs", prog: "Add reps first, then +5 lbs" },
+      { name: "Chest-Supported Row", target: "3 × 8–12", start: "105 lbs", prog: "Aim for 3×12 before increasing" },
+      { name: "Trap Bar Deadlift", target: "3 × 5–8", start: "~95 lbs/side", prog: "+5–10 lbs when all sets feel strong" },
+      { name: "DB Lateral Raise", target: "3 × 12–20", start: "15 lb DBs", prog: "Move slow; increase when 20 reps easy" },
+      { name: "Lying/Seated Leg Curl", target: "3 × 10–15", start: "start light, find your weight", prog: "Add reps before weight — new addition, balances quad-dominant squat/deadlift work" },
+      { name: "Hanging Leg Raises", target: "3 × 10–15", start: "Bodyweight", prog: "Add reps or slow tempo" }
+    ],
+    finisher: "Optional (only if in a groove): 3 min AMRAP of goblet squats – build in some extra leg volume without adding real fatigue to next session.",
+    cooldown: [
+      "Quad stretch – 30 sec each side",
+      "Hamstring/hip flexor stretch (couch stretch or kneeling lunge) – 30 sec each side",
+      "Box breathing or slow spinal cat-cow – 1 min"
+    ]
+  },
+  "Day 2": {
+    label: "Full Body B — Upper + Single Leg",
+    warmup: [
+      "Bike or row, easy pace – 3 min (raise core temp)",
+      "Band pull-aparts – 15 reps (wake up upper back before pressing/pulling)",
+      "Scap pull-ups or dead hangs – 30 sec (prime lats/shoulders)",
+      "Bodyweight reverse lunges – 8 each leg (groove split squat pattern)",
+      "Arm circles + shoulder dislocates – 10 each direction (open shoulders)"
+    ],
+    exercises: [
+      { name: "Incline DB Press", target: "3 × 8–12", start: "45 lb DBs", prog: "Work to 3×12, then move to 50s" },
+      { name: "Pull-Ups / Lat Pulldown", target: "3 × 8–12", start: "120 lbs", prog: "Add reps, then small wt increases" },
+      { name: "Bulgarian Split Squat", target: "3 × 8–12/leg", start: "20 lb DBs", prog: "Move toward 25s when stable" },
+      { name: "Seated DB Shoulder Press", target: "3 × 8–10", start: "40 lb DBs", prog: "Reach 3×10 before increasing" },
+      { name: "DB Curl", target: "3 × 10–15", start: "25 lb DBs", prog: "Increase after consistent 15 reps" },
+      { name: "Rope Pushdown", target: "3 × 10–15", start: "65 lbs", prog: "Pick a weight you fully control" }
+    ],
+    finisher: "Optional (only if in a groove): 3 min AMRAP of DB curls (light weight) – extra arm frequency since arms are your stubborn spot.",
+    cooldown: [
+      "Chest/front shoulder stretch (doorway stretch) – 30 sec each side",
+      "Lat stretch (overhead reach to the side) – 30 sec each side",
+      "Hip flexor stretch – 30 sec each side",
+      "Box breathing or slow spinal cat-cow – 1 min"
+    ]
+  },
+  "Day 3": {
+    label: "Full Body C — Hypertrophy Focus",
+    warmup: [
+      "Bike or row, easy pace – 3 min (raise core temp, get blood into legs)",
+      "Bodyweight squats – 10 reps (groove the leg press pattern)",
+      "Band pull-aparts – 15 reps (wake up rear delts/upper back for rows & face pulls)",
+      "Hip circles + leg swings – 10 each side (open hips for abduction/adduction work)"
+    ],
+    exercises: [
+      { name: "Leg Press", target: "3 × 10–15", start: "235 lbs/side", prog: "Add reps before weight; avoid grinding" },
+      { name: "Bench Press", target: "3 × 8–10", start: "55 lbs", prog: "Add reps/weight once all sets clean" },
+      { name: "Seated Cable Row", target: "3 × 10–12", start: "95 lbs", prog: "Build toward 120+ lbs over time" },
+      { name: "Hip Abduction (wide)", target: "2–3 × 12–20", start: "110 lbs", prog: "Increase when controlled" },
+      { name: "Hip Adduction (narrow)", target: "2–3 × 12–20", start: "165 lbs", prog: "Maintain controlled reps" },
+      { name: "Lying/Seated Leg Curl", target: "3 × 10–15", start: "start light, find your weight", prog: "Add reps before weight — new addition, balances quad-dominant leg press work" },
+      { name: "Lateral Raises", target: "3 × 12–20", start: "10–15 lb DBs", prog: "Keep lighter, strict form" },
+      { name: "Face Pulls", target: "3 × 12–20", start: "80 lbs", prog: "Focus rear delts, not momentum" }
+    ],
+    finisher: "Optional (only if in a groove): 3 min AMRAP of EZ bar curls – extra arm volume since arms are your stubborn spot.",
+    cooldown: [
+      "Quad stretch – 30 sec each side",
+      "Rear delt/lat stretch (cross-body arm pull + overhead lat stretch) – 30 sec each side",
+      "Box breathing or slow spinal cat-cow – 1 min"
+    ]
+  },
+  "Day 4": {
+    label: "Upper Hypertrophy — Added Day",
+    warmup: [
+      "Bike or row, easy pace – 3 min (raise core temp)",
+      "Band pull-aparts – 15 reps (wake up upper back)",
+      "Scap pull-ups or dead hangs – 30 sec (prime lats/shoulders)",
+      "Arm circles + shoulder dislocates – 10 each direction (open shoulders for pressing)",
+      "Light band curls/pushdowns – 10 reps each (prime elbow flexors/extensors)"
+    ],
+    exercises: [
+      { name: "Incline DB Press", target: "3–4 × 8–12", start: "45 lb DBs", prog: "Build toward 50s" },
+      { name: "Pull-Ups / Lat Pulldown", target: "3–4 × 8–12", start: "115 lbs", prog: "Match Day 2 or add reps" },
+      { name: "Chest-Supported / Cable Row", target: "3 × 10–12", start: "50 lb DBs", prog: "Add reps before weight" },
+      { name: "DB Shoulder Press", target: "3 × 8–12", start: "40 lb DBs", prog: "Keep 1–2 reps in reserve" },
+      { name: "Rear Delt Fly", target: "3 × 15–20", start: "55 lbs", prog: "Controlled reps" },
+      { name: "EZ Bar Curl", target: "3 × 10–15", start: "50 lbs", prog: "Add weight slowly" },
+      { name: "Rope Pushdown", target: "3 × 10–15", start: "65 lbs", prog: "Match Day 2" }
+    ],
+    finisher: "Optional (only if in a groove): Tabata (20 sec on/10 sec off × 8 rounds) alternating curls and pushdowns – arm-focused finisher.",
+    cooldown: [
+      "Chest/front shoulder stretch (doorway stretch) – 30 sec each side",
+      "Lat stretch (overhead reach to the side) – 30 sec each side",
+      "Triceps/biceps stretch – 30 sec each side",
+      "Box breathing or slow spinal cat-cow – 1 min"
+    ]
+  },
+  "Day 5": {
+    label: "Conditioning — Easy Run",
+    warmup: [
+      "Brisk walk – 3 min (ease into it)",
+      "Leg swings (front/back + side/side) – 10 each side (open hips)",
+      "Ankle circles + calf raises – 10 each (prep for impact)"
+    ],
+    exercises: [
+      { name: "Easy Run", target: "20–30 min, conversational pace", start: "whatever pace lets you talk in full sentences", prog: "Add 5 min/week; this stays easy — it's recovery + fat-loss cardio, not a hard effort" }
+    ],
+    finisher: null,
+    cooldown: [
+      "Walk it out – 3–5 min easy pace",
+      "Calf stretch – 30 sec each side",
+      "Quad + hamstring stretch – 30 sec each side"
+    ]
+  },
+  "Day 6": {
+    label: "Conditioning — Intervals",
+    warmup: [
+      "Easy jog – 5 min (build up gradually, don't start hard)",
+      "Leg swings (front/back + side/side) – 10 each side",
+      "2–3 strides (short accelerations to ~80% effort) – 20 sec each, full recovery between"
+    ],
+    exercises: [
+      { name: "Interval Repeats", target: "6 × 400m hard / 2 min easy jog between", start: "hard = ~80–85% effort, not an all-out sprint", prog: "Add 1 rep every 2 weeks, or shorten recovery to 90 sec once 6 reps feel manageable" }
+    ],
+    finisher: null,
+    cooldown: [
+      "Easy jog or walk – 5 min",
+      "Calf stretch – 30 sec each side",
+      "Quad + hamstring stretch – 30 sec each side",
+      "Box breathing – 1 min"
+    ]
+  }
+};
+
+const STORAGE_KEY = "colin-training-log-state";
+let state = { history: [], lastDay: "Day 1", deload: false };
+let activeDay = state.lastDay;
+
+async function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      return { history: [], lastDay: "Day 1", deload: false, ...parsed };
+    }
+  } catch (e) {
+    console.error("loadState error:", e);
+  }
+  return { history: [], lastDay: "Day 1", deload: false };
+}
+async function saveState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    return { ok: true };
+  } catch (e) {
+    console.error("saveState error:", e);
+    return { ok: false, error: (e && e.message) ? e.message : String(e) };
+  }
+}
+
+// ---------- Tabs ----------
+const tabsEl = document.getElementById("tabs");
+function buildTabs() {
+  tabsEl.innerHTML = "";
+  Object.keys(PROGRAM).forEach(day => {
+    const btn = document.createElement("button");
+    btn.className = "tab" + (day === activeDay ? " active" : "");
+    btn.textContent = day;
+    btn.onclick = async () => {
+      activeDay = day;
+      state.lastDay = day;
+      render();
+      const r = await saveState();
+      if (!r.ok) console.error("Tab save failed:", r.error);
+    };
+    btn.dataset.day = day;
+    tabsEl.appendChild(btn);
+  });
+}
+
+// ---------- Render workout ----------
+function getLastLog(exName) {
+  for (let i = state.history.length - 1; i >= 0; i--) {
+    const h = state.history[i];
+    const found = h.exercises.find(e => e.name === exName);
+    if (found) return found;
+  }
+  return null;
+}
+
+function render() {
+  document.querySelectorAll(".tab").forEach(t => {
+    t.classList.toggle("active", t.dataset.day === activeDay);
+  });
+
+  const dayData = PROGRAM[activeDay];
+  document.getElementById("subhead").textContent = dayData.label;
+
+  const main = document.getElementById("main");
+  main.innerHTML = "";
+
+  const title = document.createElement("div");
+  title.className = "day-title";
+  title.textContent = dayData.label;
+  main.appendChild(title);
+
+  if (state.deload) {
+    const banner = document.createElement("div");
+    banner.className = "deload-banner";
+    banner.textContent = "Deload week — cut sets by ~40% (e.g. 3 sets → 2) and drop the load ~20% on everything below.";
+    main.appendChild(banner);
+  }
+
+  if (dayData.warmup && dayData.warmup.length) {
+    const wu = document.createElement("div");
+    wu.className = "section-block";
+    wu.innerHTML = `
+      <div class="section-title">Warm-Up</div>
+      <ul>${dayData.warmup.map(w => `<li>${w}</li>`).join("")}</ul>
+    `;
+    main.appendChild(wu);
+  }
+
+  dayData.exercises.forEach((ex, idx) => {
+    const last = getLastLog(ex.name);
+    const card = document.createElement("div");
+    card.className = "exercise-card";
+    card.dataset.exName = ex.name;
+
+    const numSets = last ? last.sets.length : 3;
+
+    let setsHtml = "";
+    for (let s = 0; s < numSets; s++) {
+      const lastSet = last && last.sets[s] ? last.sets[s] : null;
+      const placeholderWt = lastSet ? lastSet.weight : ex.start.replace(/[^0-9.]/g, "");
+      const placeholderReps = lastSet ? lastSet.reps : "";
+      setsHtml += `
+        <div class="set-row">
+          <label>Set ${s + 1}</label>
+          <input type="number" inputmode="decimal" class="wt-input" placeholder="${placeholderWt || ex.start}" data-set="${s}">
+          <span class="x">×</span>
+          <input type="number" inputmode="numeric" class="reps-input" placeholder="${placeholderReps || 'reps'}" data-set="${s}">
+        </div>`;
+    }
+
+    card.innerHTML = `
+      <div class="ex-head">
+        <div>
+          <div class="ex-name">${ex.name}</div>
+          <div class="ex-target">${ex.target} · starting ${ex.start}</div>
+        </div>
+        <button class="check-btn" data-idx="${idx}">✓</button>
+      </div>
+      <div class="sets-container">${setsHtml}</div>
+      <div class="prog-note">${ex.prog}</div>
+    `;
+    main.appendChild(card);
+
+    card.querySelector(".check-btn").onclick = (e) => {
+      card.classList.toggle("done");
+      e.target.classList.toggle("checked");
+    };
+  });
+
+  if (dayData.finisher) {
+    const fin = document.createElement("div");
+    fin.className = "section-block";
+    fin.innerHTML = `
+      <div class="section-title">Finisher</div>
+      <div class="finisher-text">${dayData.finisher}</div>
+    `;
+    main.appendChild(fin);
+  }
+
+  if (dayData.cooldown && dayData.cooldown.length) {
+    const cd = document.createElement("div");
+    cd.className = "section-block";
+    cd.innerHTML = `
+      <div class="section-title">Cool-Down</div>
+      <ul>${dayData.cooldown.map(c => `<li>${c}</li>`).join("")}</ul>
+    `;
+    main.appendChild(cd);
+  }
+}
+
+const deloadCheck = document.getElementById("deloadCheck");
+
+function showToast(msg, isError) {
+  const toast = document.getElementById("toast");
+  toast.textContent = msg;
+  toast.style.background = isError ? "var(--danger)" : "var(--success)";
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), isError ? 8000 : 1500);
+}
+
+// ---------- Save workout ----------
+async function handleSave() {
+  const saveBtn = document.getElementById("saveBtn");
+  const dayData = PROGRAM[activeDay];
+  const cards = document.querySelectorAll(".exercise-card");
+  const exercises = [];
+
+  cards.forEach(card => {
+    const name = card.dataset.exName;
+    const sets = [];
+    card.querySelectorAll(".set-row").forEach(row => {
+      const wt = row.querySelector(".wt-input").value;
+      const reps = row.querySelector(".reps-input").value;
+      if (wt || reps) sets.push({ weight: wt, reps: reps });
+    });
+    if (sets.length) exercises.push({ name, sets });
+  });
+
+  if (!exercises.length) {
+    alert("Log at least one set before saving.");
+    return;
+  }
+
+  const entry = {
+    date: new Date().toISOString().slice(0, 10),
+    day: activeDay,
+    label: dayData.label,
+    exercises
+  };
+
+  state.history.push(entry);
+
+  saveBtn.disabled = true;
+  saveBtn.textContent = "Saving…";
+  const result = await saveState();
+  saveBtn.disabled = false;
+  saveBtn.textContent = "Save Workout";
+
+  if (!result.ok) {
+    showToast("Save failed: " + (result.error || "unknown error"), true);
+  } else {
+    showToast("Saved ✓", false);
+  }
+
+  // reset inputs
+  document.querySelectorAll(".wt-input, .reps-input").forEach(i => i.value = "");
+  document.querySelectorAll(".exercise-card").forEach(c => {
+    c.classList.remove("done");
+    c.querySelector(".check-btn").classList.remove("checked");
+  });
+}
+document.getElementById("saveBtn").onclick = handleSave;
+
+// ---------- Init ----------
+async function init() {
+  state = await loadState();
+  activeDay = state.lastDay || "Day 1";
+
+  buildTabs();
+  deloadCheck.checked = state.deload;
+  deloadCheck.onchange = async () => {
+    state.deload = deloadCheck.checked;
+    render();
+    const r = await saveState();
+    if (!r.ok) console.error("Deload save failed:", r.error);
+  };
+
+  document.getElementById("historyBtn").disabled = false;
+  document.getElementById("saveBtn").disabled = false;
+  document.getElementById("saveBtn").textContent = "Save Workout";
+
+  render();
+}
+init();
+
+// ---------- History view ----------
+let showingHistory = false;
+document.getElementById("historyBtn").onclick = () => {
+  showingHistory = !showingHistory;
+  document.getElementById("historyBtn").textContent = showingHistory ? "Back to Log" : "History";
+  document.getElementById("tabs").style.display = showingHistory ? "none" : "flex";
+  document.getElementById("saveBtn").style.display = showingHistory ? "none" : "block";
+
+  const main = document.getElementById("main");
+  main.innerHTML = "";
+
+  if (!showingHistory) { render(); return; }
+
+  if (!state.history.length) {
+    main.innerHTML = `<div class="empty">No workouts logged yet.<br>Log your first session and it'll show up here.</div>`;
+    return;
+  }
+
+  const title = document.createElement("div");
+  title.className = "day-title";
+  title.textContent = "Workout History";
+  main.appendChild(title);
+
+  [...state.history].reverse().forEach(h => {
+    const item = document.createElement("div");
+    item.className = "history-item";
+    const exLines = h.exercises.map(e => {
+      const setStr = e.sets.map(s => `${s.weight || "?"}×${s.reps || "?"}`).join(", ");
+      return `<div class="h-ex">${e.name}: ${setStr}</div>`;
+    }).join("");
+    item.innerHTML = `
+      <div class="h-date">${h.date}</div>
+      <div class="h-day">${h.label}</div>
+      ${exLines}
+    `;
+    main.appendChild(item);
+  });
+};
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("service-worker.js").catch(err => {
+      console.error("SW registration failed:", err);
+    });
+  });
+}
+</script>
+
+</body>
+</html>
