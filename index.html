@@ -230,6 +230,54 @@
     color: var(--text);
     line-height: 1.4;
   }
+  .suggest-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 4px 9px;
+    border-radius: 20px;
+    margin-top: 6px;
+  }
+  .suggest-badge.up {
+    background: var(--accent-dim);
+    color: var(--accent);
+  }
+  .suggest-badge.hold {
+    background: #ffffff14;
+    color: var(--text-dim);
+  }
+  .history-subtabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+  .history-subtab {
+    flex: 0 0 auto;
+    padding: 7px 14px;
+    border-radius: 20px;
+    background: var(--card);
+    color: var(--text-dim);
+    font-size: 12.5px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+  }
+  .history-subtab.active { background: var(--accent-dim); color: var(--accent); border-color: var(--accent); }
+  .trend-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+  .trend-card .trend-name { font-weight: 700; font-size: 14px; margin-bottom: 2px; }
+  .trend-card .trend-meta { font-size: 11.5px; color: var(--text-dim); margin-bottom: 8px; }
+  .trend-card svg { display: block; width: 100%; height: auto; }
+  .trend-point-label {
+    font-size: 9px;
+    fill: var(--text-dim);
+  }
 </style>
 </head>
 <body>
@@ -451,6 +499,96 @@ function getLastLog(exName) {
   return null;
 }
 
+// Parses a target string like "3 × 5–8" or "2–3 × 12–20" into the top of the rep range.
+function parseTopReps(targetStr) {
+  const matches = targetStr.match(/(\d+)(?:[\u2013\u2014-](\d+))?\s*$/);
+  if (!matches) return null;
+  const high = matches[2] ? parseInt(matches[2], 10) : parseInt(matches[1], 10);
+  return isNaN(high) ? null : high;
+}
+
+// Pulls a weight increment out of a prog note like "+5–10 lbs" or "+5 lbs". Falls back to 5.
+function parseIncrement(progStr) {
+  const m = progStr && progStr.match(/\+(\d+)/);
+  return m ? parseInt(m[1], 10) : 5;
+}
+
+// Given an exercise definition and its most recent logged entry, suggests the weight
+// to use next time: bump it if every set met or beat the top of the rep range, else hold.
+function getSuggestion(ex, last) {
+  if (!last || !last.sets.length) return null;
+  const topReps = parseTopReps(ex.target);
+  const weights = last.sets.map(s => parseFloat(s.weight)).filter(n => !isNaN(n));
+  if (!weights.length) return null;
+  const lastWeight = weights[weights.length - 1];
+
+  if (topReps === null) return { weight: lastWeight, up: false };
+
+  const allHitTop = last.sets.every(s => {
+    const r = parseInt(s.reps, 10);
+    return !isNaN(r) && r >= topReps;
+  });
+
+  if (allHitTop) {
+    const inc = parseIncrement(ex.prog);
+    return { weight: lastWeight + inc, up: true };
+  }
+  return { weight: lastWeight, up: false };
+}
+
+// Builds an ordered list of {date, weight} points for an exercise across all history,
+// using the top (max) weight logged across that session's sets.
+function getExerciseTrend(exName) {
+  const points = [];
+  state.history.forEach(h => {
+    const found = h.exercises.find(e => e.name === exName);
+    if (!found) return;
+    const weights = found.sets.map(s => parseFloat(s.weight)).filter(n => !isNaN(n));
+    if (!weights.length) return;
+    const topReps = found.sets.reduce((max, s) => {
+      const r = parseInt(s.reps, 10);
+      return isNaN(r) ? max : Math.max(max, r);
+    }, 0);
+    points.push({ date: h.date, weight: Math.max(...weights), reps: topReps });
+  });
+  return points;
+}
+
+// Renders a small inline SVG line chart for a series of {date, weight} points.
+function buildSparkline(points) {
+  const w = 300, h = 90, padX = 10, padY = 14;
+  const weights = points.map(p => p.weight);
+  const minW = Math.min(...weights);
+  const maxW = Math.max(...weights);
+  const range = maxW - minW || 1;
+
+  const coords = points.map((p, i) => {
+    const x = points.length === 1 ? w / 2 : padX + (i / (points.length - 1)) * (w - padX * 2);
+    const y = h - padY - ((p.weight - minW) / range) * (h - padY * 2);
+    return { x, y, p };
+  });
+
+  const linePath = coords.map((c, i) => (i === 0 ? "M" : "L") + c.x.toFixed(1) + "," + c.y.toFixed(1)).join(" ");
+
+  const dots = coords.map(c =>
+    `<circle cx="${c.x.toFixed(1)}" cy="${c.y.toFixed(1)}" r="3.5" fill="var(--accent)" />`
+  ).join("");
+
+  const firstLabel = `<text x="${coords[0].x}" y="${h - 2}" class="trend-point-label" text-anchor="start">${points[0].date.slice(5)}</text>`;
+  const lastLabel = coords.length > 1
+    ? `<text x="${coords[coords.length - 1].x}" y="${h - 2}" class="trend-point-label" text-anchor="end">${points[points.length - 1].date.slice(5)}</text>`
+    : "";
+
+  return `
+    <svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+      <path d="${linePath}" fill="none" stroke="var(--accent)" stroke-width="2" />
+      ${dots}
+      ${firstLabel}
+      ${lastLabel}
+    </svg>
+  `;
+}
+
 function render() {
   document.querySelectorAll(".tab").forEach(t => {
     t.classList.toggle("active", t.dataset.day === activeDay);
@@ -486,6 +624,7 @@ function render() {
 
   dayData.exercises.forEach((ex, idx) => {
     const last = getLastLog(ex.name);
+    const suggestion = getSuggestion(ex, last);
     const card = document.createElement("div");
     card.className = "exercise-card";
     card.dataset.exName = ex.name;
@@ -495,7 +634,7 @@ function render() {
     let setsHtml = "";
     for (let s = 0; s < numSets; s++) {
       const lastSet = last && last.sets[s] ? last.sets[s] : null;
-      const placeholderWt = lastSet ? lastSet.weight : ex.start.replace(/[^0-9.]/g, "");
+      const placeholderWt = suggestion ? suggestion.weight : (lastSet ? lastSet.weight : ex.start.replace(/[^0-9.]/g, ""));
       const placeholderReps = lastSet ? lastSet.reps : "";
       setsHtml += `
         <div class="set-row">
@@ -506,11 +645,18 @@ function render() {
         </div>`;
     }
 
+    const badgeHtml = suggestion
+      ? (suggestion.up
+          ? `<div class="suggest-badge up">↑ Try ${suggestion.weight} lbs — you hit the top last time</div>`
+          : `<div class="suggest-badge hold">Hold at ${suggestion.weight} lbs — add reps before adding weight</div>`)
+      : "";
+
     card.innerHTML = `
       <div class="ex-head">
         <div>
           <div class="ex-name">${ex.name}</div>
           <div class="ex-target">${ex.target} · starting ${ex.start}</div>
+          ${badgeHtml}
         </div>
         <button class="check-btn" data-idx="${idx}">✓</button>
       </div>
@@ -633,27 +779,13 @@ init();
 
 // ---------- History view ----------
 let showingHistory = false;
-document.getElementById("historyBtn").onclick = () => {
-  showingHistory = !showingHistory;
-  document.getElementById("historyBtn").textContent = showingHistory ? "Back to Log" : "History";
-  document.getElementById("tabs").style.display = showingHistory ? "none" : "flex";
-  document.getElementById("saveBtn").style.display = showingHistory ? "none" : "block";
+let historySubTab = "log"; // "log" | "trends"
 
-  const main = document.getElementById("main");
-  main.innerHTML = "";
-
-  if (!showingHistory) { render(); return; }
-
+function renderHistoryLog(main) {
   if (!state.history.length) {
     main.innerHTML = `<div class="empty">No workouts logged yet.<br>Log your first session and it'll show up here.</div>`;
     return;
   }
-
-  const title = document.createElement("div");
-  title.className = "day-title";
-  title.textContent = "Workout History";
-  main.appendChild(title);
-
   [...state.history].reverse().forEach(h => {
     const item = document.createElement("div");
     item.className = "history-item";
@@ -668,6 +800,75 @@ document.getElementById("historyBtn").onclick = () => {
     `;
     main.appendChild(item);
   });
+}
+
+function renderHistoryTrends(main) {
+  // Collect exercise names in the order they first appeared, across all history.
+  const seen = [];
+  state.history.forEach(h => {
+    h.exercises.forEach(e => { if (!seen.includes(e.name)) seen.push(e.name); });
+  });
+
+  const chartable = seen
+    .map(name => ({ name, points: getExerciseTrend(name) }))
+    .filter(t => t.points.length >= 2); // need at least 2 points for a trend line
+
+  if (!chartable.length) {
+    main.innerHTML = `<div class="empty">Log a couple more sessions for the same exercise<br>to start seeing trend lines here.</div>`;
+    return;
+  }
+
+  chartable.forEach(t => {
+    const card = document.createElement("div");
+    card.className = "trend-card";
+    const first = t.points[0].weight;
+    const latest = t.points[t.points.length - 1].weight;
+    const diff = latest - first;
+    const diffText = diff > 0 ? `+${diff} lbs since first log` : diff < 0 ? `${diff} lbs since first log` : "steady";
+    card.innerHTML = `
+      <div class="trend-name">${t.name}</div>
+      <div class="trend-meta">${t.points.length} sessions logged · ${diffText}</div>
+      ${buildSparkline(t.points)}
+    `;
+    main.appendChild(card);
+  });
+}
+
+function renderHistory() {
+  const main = document.getElementById("main");
+  main.innerHTML = "";
+
+  const title = document.createElement("div");
+  title.className = "day-title";
+  title.textContent = "Workout History";
+  main.appendChild(title);
+
+  const subtabs = document.createElement("div");
+  subtabs.className = "history-subtabs";
+  subtabs.innerHTML = `
+    <button class="history-subtab ${historySubTab === "log" ? "active" : ""}" data-tab="log">Log</button>
+    <button class="history-subtab ${historySubTab === "trends" ? "active" : ""}" data-tab="trends">Trends</button>
+  `;
+  main.appendChild(subtabs);
+  subtabs.querySelectorAll(".history-subtab").forEach(btn => {
+    btn.onclick = () => {
+      historySubTab = btn.dataset.tab;
+      renderHistory();
+    };
+  });
+
+  if (historySubTab === "log") renderHistoryLog(main);
+  else renderHistoryTrends(main);
+}
+
+document.getElementById("historyBtn").onclick = () => {
+  showingHistory = !showingHistory;
+  document.getElementById("historyBtn").textContent = showingHistory ? "Back to Log" : "History";
+  document.getElementById("tabs").style.display = showingHistory ? "none" : "flex";
+  document.getElementById("saveBtn").style.display = showingHistory ? "none" : "block";
+
+  if (!showingHistory) { render(); return; }
+  renderHistory();
 };
 
 if ("serviceWorker" in navigator) {
@@ -677,7 +878,7 @@ if ("serviceWorker" in navigator) {
     });
   });
 }
-</script>
+<\/script>
 
 </body>
 </html>
