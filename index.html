@@ -631,15 +631,30 @@ function render() {
 
     const numSets = last ? last.sets.length : 3;
 
+    // Starting weight for every set this session: the suggested weight (if we
+    // have enough history to suggest one), else the last weight you logged for
+    // this exercise, else the program's default starting weight. This value is
+    // pre-filled as the actual input value (not just a placeholder) so saving
+    // without touching the field still records the right weight.
+    let startingWeight = "";
+    if (suggestion) {
+      startingWeight = suggestion.weight;
+    } else if (last && last.sets.length) {
+      const lastWeights = last.sets.map(s => parseFloat(s.weight)).filter(n => !isNaN(n));
+      if (lastWeights.length) startingWeight = lastWeights[lastWeights.length - 1];
+    }
+    if (startingWeight === "") {
+      startingWeight = ex.start.replace(/[^0-9.]/g, "");
+    }
+
     let setsHtml = "";
     for (let s = 0; s < numSets; s++) {
       const lastSet = last && last.sets[s] ? last.sets[s] : null;
-      const placeholderWt = suggestion ? suggestion.weight : (lastSet ? lastSet.weight : ex.start.replace(/[^0-9.]/g, ""));
       const placeholderReps = lastSet ? lastSet.reps : "";
       setsHtml += `
         <div class="set-row">
           <label>Set ${s + 1}</label>
-          <input type="number" inputmode="decimal" class="wt-input" placeholder="${placeholderWt || ex.start}" data-set="${s}">
+          <input type="number" inputmode="decimal" class="wt-input" value="${startingWeight}" data-set="${s}">
           <span class="x">×</span>
           <input type="number" inputmode="numeric" class="reps-input" placeholder="${placeholderReps || 'reps'}" data-set="${s}">
         </div>`;
