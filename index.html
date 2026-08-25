@@ -629,7 +629,13 @@ function render() {
     card.className = "exercise-card";
     card.dataset.exName = ex.name;
 
-    const numSets = last ? last.sets.length : 3;
+    // Number of set rows always comes from the program's prescribed set count
+    // (e.g. "3 × 5–8" -> 3), never from how many sets you happened to save
+    // last time — a partial or skipped save shouldn't shrink the card.
+    const setCountMatch = ex.target.match(/^(\d+)(?:[\u2013\u2014-](\d+))?/);
+    const numSets = setCountMatch
+      ? parseInt(setCountMatch[2] || setCountMatch[1], 10)
+      : 3;
 
     // Starting weight for every set this session: the suggested weight (if we
     // have enough history to suggest one), else the last weight you logged for
