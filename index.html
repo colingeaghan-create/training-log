@@ -43,24 +43,6 @@
   }
   header h1 { font-size: 20px; margin: 0 0 2px; }
   header p { margin: 0 0 8px; color: var(--text-dim); font-size: 13px; }
-  .deload-toggle {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 12.5px;
-    color: var(--text-dim);
-  }
-  .deload-toggle input { width: 16px; height: 16px; accent-color: var(--accent); }
-  .deload-banner {
-    background: #f8717133;
-    border: 1px solid var(--danger);
-    color: var(--danger);
-    border-radius: 10px;
-    padding: 10px 12px;
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 14px;
-  }
   .tabs {
     display: flex;
     gap: 6px;
@@ -299,10 +281,6 @@
 <header>
   <h1>Training Log</h1>
   <p id="subhead">Full Body A/B/C/D + conditioning</p>
-  <label class="deload-toggle">
-    <input type="checkbox" id="deloadCheck">
-    <span>Deload week (-40% volume, -20% intensity)</span>
-  </label>
 </header>
 
 <div class="tabs" id="tabs"></div>
@@ -334,8 +312,8 @@ const PROGRAM = {
       { name: "Chest-Supported Row", target: "3 × 8-12", start: "105 lbs", prog: "Aim for 3×12 before increasing" },
       { name: "Trap Bar Deadlift", target: "3 × 5-8", start: "~95 lbs/side", prog: "+5-10 lbs when all sets feel strong" },
       { name: "DB Lateral Raise", target: "3 × 12-20", start: "15 lb DBs", prog: "Move slow; increase when 20 reps easy" },
-      { name: "Lying/Seated Leg Curl", target: "3 × 10-15", start: "start light, find your weight", prog: "Add reps before weight - new addition, balances quad-dominant squat/deadlift work" },
-      { name: "Hanging Leg Raises", target: "3 × 10-15", start: "Bodyweight", prog: "Add reps or slow tempo" }
+      { name: "Lying/Seated Leg Curl", target: "3 × 10-15", start: "~40 lbs to start, adjust from there", prog: "Add reps before weight - new addition, balances quad-dominant squat/deadlift work" },
+      { name: "Hanging Leg Raises", target: "3 × 10-15", start: "Bodyweight (0 lbs added)", prog: "Add reps or slow tempo" }
     ],
     finisher: "Optional (only if in a groove): 3 min AMRAP of goblet squats - build in some extra leg volume without adding real fatigue to next session.",
     cooldown: [
@@ -383,7 +361,7 @@ const PROGRAM = {
       { name: "Seated Cable Row", target: "3 × 10-12", start: "95 lbs", prog: "Build toward 120+ lbs over time" },
       { name: "Hip Abduction (wide)", target: "2-3 × 12-20", start: "110 lbs", prog: "Increase when controlled" },
       { name: "Hip Adduction (narrow)", target: "2-3 × 12-20", start: "165 lbs", prog: "Maintain controlled reps" },
-      { name: "Lying/Seated Leg Curl", target: "3 × 10-15", start: "start light, find your weight", prog: "Add reps before weight - new addition, balances quad-dominant leg press work" },
+      { name: "Lying/Seated Leg Curl", target: "3 × 10-15", start: "~40 lbs to start, adjust from there", prog: "Add reps before weight - new addition, balances quad-dominant leg press work" },
       { name: "Lateral Raises", target: "3 × 12-20", start: "10-15 lb DBs", prog: "Keep lighter, strict form" },
       { name: "Face Pulls", target: "3 × 12-20", start: "80 lbs", prog: "Focus rear delts, not momentum" }
     ],
@@ -487,6 +465,20 @@ async function saveState() {
 const tabsEl = document.getElementById("tabs");
 function buildTabs() {
   tabsEl.innerHTML = "";
+
+  const timerBtn = document.createElement("button");
+  timerBtn.className = "tab" + (activeDay === "Timer" ? " active" : "");
+  timerBtn.textContent = "⏱ Timer";
+  timerBtn.dataset.day = "Timer";
+  timerBtn.onclick = async () => {
+    activeDay = "Timer";
+    state.lastDay = "Timer";
+    render();
+    const r = await saveState();
+    if (!r.ok) console.error("Tab save failed:", r.error);
+  };
+  tabsEl.appendChild(timerBtn);
+
   Object.keys(PROGRAM).forEach(day => {
     const btn = document.createElement("button");
     btn.className = "tab" + (day === activeDay ? " active" : "");
@@ -504,7 +496,7 @@ function buildTabs() {
 }
 
 // ---------- Draft state (in-progress, unsaved inputs) ----------
-// Render rebuilds the DOM from scratch on every call (deload toggle, tab
+// Render rebuilds the DOM from scratch on every call (tab
 // switches, etc.), which would normally wipe anything you've typed but not
 // yet saved. These helpers persist every keystroke to state.drafts so a
 // rebuild can restore exactly what was there.
@@ -525,7 +517,9 @@ function clearDraftsForDay(dayName) {
 // Builds the blue "last week" note: what you actually logged last time, plus
 // what to do this week based on those numbers.
 function buildWeeklyNote(ex, last, suggestion) {
-  if (!last || !last.sets.length) return null;
+  if (!last || !last.sets.length) {
+    return `<div class="week-note">Start workout with these weights and we'll determine notes next week.</div>`;
+  }
   if (ex.cardio) {
     const v1 = last.sets[0] ? last.sets[0].weight : "";
     const v2 = last.sets[0] ? last.sets[0].reps : "";
@@ -645,10 +639,96 @@ function buildSparkline(points) {
   `;
 }
 
+// ---------- Rest Timer ----------
+let timerInterval = null;
+let timerRemaining = 0;
+
+function formatTimerTime(totalSeconds) {
+  const m = Math.floor(totalSeconds / 60).toString().padStart(2, "0");
+  const s = (totalSeconds % 60).toString().padStart(2, "0");
+  return `${m}:${s}`;
+}
+
+function updateTimerDisplay() {
+  const el = document.getElementById("timerDisplay");
+  if (el) el.textContent = formatTimerTime(timerRemaining);
+}
+
+function stopTimer() {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+  const btn = document.getElementById("timerCancelBtn");
+  if (btn) btn.style.display = "none";
+}
+
+function timerDone() {
+  if (navigator.vibrate) navigator.vibrate([300, 120, 300]);
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.frequency.value = 880;
+    gain.gain.setValueAtTime(0.3, ctx.currentTime);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.4);
+  } catch (e) {
+    console.error("Timer beep failed:", e);
+  }
+  showToast("Time's up ⏰", false);
+}
+
+function startTimer(seconds) {
+  stopTimer();
+  timerRemaining = seconds;
+  updateTimerDisplay();
+  const btn = document.getElementById("timerCancelBtn");
+  if (btn) btn.style.display = "block";
+  timerInterval = setInterval(() => {
+    timerRemaining--;
+    updateTimerDisplay();
+    if (timerRemaining <= 0) {
+      stopTimer();
+      timerDone();
+    }
+  }, 1000);
+}
+
+function renderTimerView() {
+  document.getElementById("subhead").textContent = "Rest Timer";
+  const main = document.getElementById("main");
+  main.innerHTML = `
+    <div class="day-title">Rest Timer</div>
+    <div class="section-block" style="text-align:center; padding:28px 14px;">
+      <div id="timerDisplay" style="font-size:56px; font-weight:800; margin-bottom:20px; font-variant-numeric: tabular-nums;">00:00</div>
+      <div style="display:flex; gap:10px; margin-bottom:16px;">
+        <button class="btn btn-secondary timer-preset" data-secs="30" style="padding:16px;">30 sec</button>
+        <button class="btn btn-secondary timer-preset" data-secs="60" style="padding:16px;">1 min</button>
+        <button class="btn btn-secondary timer-preset" data-secs="120" style="padding:16px;">2 min</button>
+      </div>
+      <button class="btn btn-primary" id="timerCancelBtn" style="display:none;">Cancel</button>
+    </div>
+  `;
+  main.querySelectorAll(".timer-preset").forEach(btn => {
+    btn.onclick = () => startTimer(parseInt(btn.dataset.secs, 10));
+  });
+  document.getElementById("timerCancelBtn").onclick = stopTimer;
+}
+
 function render() {
   document.querySelectorAll(".tab").forEach(t => {
     t.classList.toggle("active", t.dataset.day === activeDay);
   });
+
+  document.getElementById("saveBtn").style.display = activeDay === "Timer" ? "none" : "block";
+
+  if (activeDay === "Timer") {
+    renderTimerView();
+    return;
+  }
 
   const dayData = PROGRAM[activeDay];
   document.getElementById("subhead").textContent = dayData.label;
@@ -660,13 +740,6 @@ function render() {
   title.className = "day-title";
   title.textContent = dayData.label;
   main.appendChild(title);
-
-  if (state.deload) {
-    const banner = document.createElement("div");
-    banner.className = "deload-banner";
-    banner.textContent = "Deload week - cut sets by ~40% (e.g. 3 sets → 2) and drop the load ~20% on everything below.";
-    main.appendChild(banner);
-  }
 
   if (dayData.warmup && dayData.warmup.length) {
     const wu = document.createElement("div");
@@ -720,9 +793,7 @@ function render() {
         <div class="set-row">
           <label style="width:auto; flex:0 0 130px;">${ex.field1Label || "Value"}</label>
           <input type="number" inputmode="decimal" class="wt-input" value="${val1}" data-set="0">
-        </div>
-        <div class="set-row">
-          <label style="width:auto; flex:0 0 130px;">${ex.field2Label || "Notes"}</label>
+          <label style="width:auto; flex:0 0 100px; text-align:right;">${ex.field2Label || "Notes"}</label>
           <input type="text" class="reps-input" value="${val2}" data-set="0">
         </div>`;
     } else {
@@ -763,7 +834,7 @@ function render() {
       e.target.classList.toggle("checked");
     };
 
-    // Persist every keystroke to the draft so a re-render (deload toggle,
+    // Persist every keystroke to the draft so a re-render (etc.,
     // switching tabs and back, etc.) never loses what you've typed.
     card.querySelectorAll(".wt-input").forEach(inp => {
       inp.oninput = async () => {
@@ -802,8 +873,6 @@ function render() {
   }
 }
 
-const deloadCheck = document.getElementById("deloadCheck");
-
 function showToast(msg, isError) {
   const toast = document.getElementById("toast");
   toast.textContent = msg;
@@ -815,54 +884,61 @@ function showToast(msg, isError) {
 // ---------- Save workout ----------
 async function handleSave() {
   const saveBtn = document.getElementById("saveBtn");
-  const dayData = PROGRAM[activeDay];
-  const cards = document.querySelectorAll(".exercise-card");
-  const exercises = [];
-
-  cards.forEach(card => {
-    const name = card.dataset.exName;
-    const sets = [];
-    card.querySelectorAll(".set-row").forEach(row => {
-      const wt = row.querySelector(".wt-input").value;
-      const reps = row.querySelector(".reps-input").value;
-      if (wt || reps) sets.push({ weight: wt, reps: reps });
-    });
-    if (sets.length) exercises.push({ name, sets });
-  });
-
-  if (!exercises.length) {
-    alert("Log at least one set before saving.");
-    return;
-  }
-
-  const entry = {
-    date: new Date().toISOString().slice(0, 10),
-    day: activeDay,
-    label: dayData.label,
-    exercises
-  };
-
-  state.history.push(entry);
-  clearDraftsForDay(activeDay);
-
   saveBtn.disabled = true;
   saveBtn.textContent = "Saving…";
-  const result = await saveState();
-  saveBtn.disabled = false;
-  saveBtn.textContent = "Save Workout";
+  try {
+    const dayData = PROGRAM[activeDay];
+    const cards = document.querySelectorAll(".exercise-card");
+    const exercises = [];
 
-  if (!result.ok) {
-    showToast("Save failed: " + (result.error || "unknown error"), true);
-  } else {
-    showToast("Saved ✓", false);
+    cards.forEach(card => {
+      const name = card.dataset.exName;
+      const sets = [];
+      card.querySelectorAll(".set-row").forEach(row => {
+        const wtInput = row.querySelector(".wt-input");
+        const repsInput = row.querySelector(".reps-input");
+        const wt = wtInput ? wtInput.value : "";
+        const reps = repsInput ? repsInput.value : "";
+        if (wt || reps) sets.push({ weight: wt, reps: reps });
+      });
+      if (sets.length) exercises.push({ name, sets });
+    });
+
+    if (!exercises.length) {
+      alert("Log at least one set before saving.");
+      return;
+    }
+
+    const entry = {
+      date: new Date().toISOString().slice(0, 10),
+      day: activeDay,
+      label: dayData.label,
+      exercises
+    };
+
+    state.history.push(entry);
+    clearDraftsForDay(activeDay);
+
+    const result = await saveState();
+    if (!result.ok) {
+      showToast("Save failed: " + (result.error || "unknown error"), true);
+    } else {
+      showToast("Saved ✓", false);
+    }
+
+    // reset inputs
+    document.querySelectorAll(".wt-input, .reps-input").forEach(i => i.value = "");
+    document.querySelectorAll(".exercise-card").forEach(c => {
+      c.classList.remove("done");
+      c.querySelector(".check-btn").classList.remove("checked");
+    });
+  } catch (e) {
+    console.error("handleSave error:", e);
+    showToast("Something went wrong: " + (e && e.message ? e.message : String(e)), true);
+  } finally {
+    saveBtn.disabled = false;
+    saveBtn.textContent = "Save Workout";
   }
-
-  // reset inputs
-  document.querySelectorAll(".wt-input, .reps-input").forEach(i => i.value = "");
-  document.querySelectorAll(".exercise-card").forEach(c => {
-    c.classList.remove("done");
-    c.querySelector(".check-btn").classList.remove("checked");
-  });
 }
 document.getElementById("saveBtn").onclick = handleSave;
 
@@ -872,13 +948,6 @@ async function init() {
   activeDay = state.lastDay || "Day 1";
 
   buildTabs();
-  deloadCheck.checked = state.deload;
-  deloadCheck.onchange = async () => {
-    state.deload = deloadCheck.checked;
-    render();
-    const r = await saveState();
-    if (!r.ok) console.error("Deload save failed:", r.error);
-  };
 
   document.getElementById("historyBtn").disabled = false;
   document.getElementById("saveBtn").disabled = false;
@@ -901,9 +970,24 @@ function renderHistoryItemView(item, h, index) {
     <div class="h-date">${h.date}</div>
     <div class="h-day">${h.label}</div>
     ${exLines}
-    <button class="h-edit-btn">Edit</button>
+    <div style="display:flex; gap:8px; margin-top:10px;">
+      <button class="h-edit-btn" style="flex:1;">Edit</button>
+      <button class="h-delete-btn" style="flex:1; background:#f8717133; color:var(--danger); border:1px solid var(--danger); border-radius:8px; padding:6px 12px; font-size:12.5px; font-weight:600;">Delete</button>
+    </div>
   `;
   item.querySelector(".h-edit-btn").onclick = () => renderHistoryItemEdit(item, h, index);
+  item.querySelector(".h-delete-btn").onclick = async () => {
+    const confirmed = window.confirm(`Delete the ${h.date} (${h.label}) entry? This can't be undone.`);
+    if (!confirmed) return;
+    state.history.splice(index, 1);
+    const r = await saveState();
+    if (!r.ok) {
+      showToast("Delete failed: " + (r.error || "unknown error"), true);
+      return;
+    }
+    showToast("Entry deleted ✓", false);
+    renderHistory();
+  };
 }
 
 function renderHistoryItemEdit(item, h, index) {
