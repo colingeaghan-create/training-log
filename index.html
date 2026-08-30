@@ -230,23 +230,37 @@
     color: var(--text);
     line-height: 1.4;
   }
-  .suggest-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 11.5px;
-    font-weight: 700;
-    padding: 4px 9px;
-    border-radius: 20px;
+  .week-note {
+    display: block;
+    background: #1e3a5f4d;
+    border: 1px solid #60a5fa;
+    color: #93c5fd;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 9px;
+    border-radius: 10px;
     margin-top: 6px;
+    line-height: 1.4;
   }
-  .suggest-badge.up {
-    background: var(--accent-dim);
-    color: var(--accent);
+  .history-item .h-edit-btn {
+    margin-top: 10px;
+    background: var(--card-hi);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 12.5px;
+    font-weight: 600;
   }
-  .suggest-badge.hold {
-    background: #ffffff14;
-    color: var(--text-dim);
+  .edit-ex-block {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+  .edit-ex-block .edit-ex-name {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 6px;
   }
   .history-subtabs {
     display: flex;
@@ -287,7 +301,7 @@
   <p id="subhead">Full Body A/B/C/D + conditioning</p>
   <label class="deload-toggle">
     <input type="checkbox" id="deloadCheck">
-    <span>Deload week (–40% volume, –20% intensity)</span>
+    <span>Deload week (-40% volume, -20% intensity)</span>
   </label>
 </header>
 
@@ -306,145 +320,145 @@
 // ---------- Program data ----------
 const PROGRAM = {
   "Day 1": {
-    label: "Full Body A — Strength Focus",
+    label: "Full Body A - Strength Focus",
     warmup: [
-      "Bike or row, easy pace – 3 min (raise core temp)",
-      "Bodyweight squats – 10 reps (groove squat pattern)",
-      "Glute bridges – 12 reps (activate glutes before squat/deadlift)",
-      "World's greatest stretch – 5 each side (open hips for squat & deadlift)",
-      "Empty bar or light DB good mornings – 10 reps (prime hamstrings/low back)"
+      "Bike or row, easy pace - 3 min (raise core temp)",
+      "Bodyweight squats - 10 reps (groove squat pattern)",
+      "Glute bridges - 12 reps (activate glutes before squat/deadlift)",
+      "World's greatest stretch - 5 each side (open hips for squat & deadlift)",
+      "Empty bar or light DB good mornings - 10 reps (prime hamstrings/low back)"
     ],
     exercises: [
-      { name: "Back Squat", target: "3 × 5–8", start: "80 lbs", prog: "Stay here until 3×8, then +5–10 lbs" },
-      { name: "Bench Press", target: "3 × 5–8", start: "55 lbs", prog: "Add reps first, then +5 lbs" },
-      { name: "Chest-Supported Row", target: "3 × 8–12", start: "105 lbs", prog: "Aim for 3×12 before increasing" },
-      { name: "Trap Bar Deadlift", target: "3 × 5–8", start: "~95 lbs/side", prog: "+5–10 lbs when all sets feel strong" },
-      { name: "DB Lateral Raise", target: "3 × 12–20", start: "15 lb DBs", prog: "Move slow; increase when 20 reps easy" },
-      { name: "Lying/Seated Leg Curl", target: "3 × 10–15", start: "start light, find your weight", prog: "Add reps before weight — new addition, balances quad-dominant squat/deadlift work" },
-      { name: "Hanging Leg Raises", target: "3 × 10–15", start: "Bodyweight", prog: "Add reps or slow tempo" }
+      { name: "Back Squat", target: "3 × 5-8", start: "80 lbs", prog: "Stay here until 3×8, then +5-10 lbs" },
+      { name: "Bench Press", target: "3 × 5-8", start: "55 lbs", prog: "Add reps first, then +5 lbs" },
+      { name: "Chest-Supported Row", target: "3 × 8-12", start: "105 lbs", prog: "Aim for 3×12 before increasing" },
+      { name: "Trap Bar Deadlift", target: "3 × 5-8", start: "~95 lbs/side", prog: "+5-10 lbs when all sets feel strong" },
+      { name: "DB Lateral Raise", target: "3 × 12-20", start: "15 lb DBs", prog: "Move slow; increase when 20 reps easy" },
+      { name: "Lying/Seated Leg Curl", target: "3 × 10-15", start: "start light, find your weight", prog: "Add reps before weight - new addition, balances quad-dominant squat/deadlift work" },
+      { name: "Hanging Leg Raises", target: "3 × 10-15", start: "Bodyweight", prog: "Add reps or slow tempo" }
     ],
-    finisher: "Optional (only if in a groove): 3 min AMRAP of goblet squats – build in some extra leg volume without adding real fatigue to next session.",
+    finisher: "Optional (only if in a groove): 3 min AMRAP of goblet squats - build in some extra leg volume without adding real fatigue to next session.",
     cooldown: [
-      "Quad stretch – 30 sec each side",
-      "Hamstring/hip flexor stretch (couch stretch or kneeling lunge) – 30 sec each side",
-      "Box breathing or slow spinal cat-cow – 1 min"
+      "Quad stretch - 30 sec each side",
+      "Hamstring/hip flexor stretch (couch stretch or kneeling lunge) - 30 sec each side",
+      "Box breathing or slow spinal cat-cow - 1 min"
     ]
   },
   "Day 2": {
-    label: "Full Body B — Upper + Single Leg",
+    label: "Full Body B - Upper + Single Leg",
     warmup: [
-      "Bike or row, easy pace – 3 min (raise core temp)",
-      "Band pull-aparts – 15 reps (wake up upper back before pressing/pulling)",
-      "Scap pull-ups or dead hangs – 30 sec (prime lats/shoulders)",
-      "Bodyweight reverse lunges – 8 each leg (groove split squat pattern)",
-      "Arm circles + shoulder dislocates – 10 each direction (open shoulders)"
+      "Bike or row, easy pace - 3 min (raise core temp)",
+      "Band pull-aparts - 15 reps (wake up upper back before pressing/pulling)",
+      "Scap pull-ups or dead hangs - 30 sec (prime lats/shoulders)",
+      "Bodyweight reverse lunges - 8 each leg (groove split squat pattern)",
+      "Arm circles + shoulder dislocates - 10 each direction (open shoulders)"
     ],
     exercises: [
-      { name: "Incline DB Press", target: "3 × 8–12", start: "45 lb DBs", prog: "Work to 3×12, then move to 50s" },
-      { name: "Pull-Ups / Lat Pulldown", target: "3 × 8–12", start: "120 lbs", prog: "Add reps, then small wt increases" },
-      { name: "Bulgarian Split Squat", target: "3 × 8–12/leg", start: "20 lb DBs", prog: "Move toward 25s when stable" },
-      { name: "Seated DB Shoulder Press", target: "3 × 8–10", start: "40 lb DBs", prog: "Reach 3×10 before increasing" },
-      { name: "DB Curl", target: "3 × 10–15", start: "25 lb DBs", prog: "Increase after consistent 15 reps" },
-      { name: "Rope Pushdown", target: "3 × 10–15", start: "65 lbs", prog: "Pick a weight you fully control" }
+      { name: "Incline DB Press", target: "3 × 8-12", start: "45 lb DBs", prog: "Work to 3×12, then move to 50s" },
+      { name: "Pull-Ups / Lat Pulldown", target: "3 × 8-12", start: "120 lbs", prog: "Add reps, then small wt increases" },
+      { name: "Bulgarian Split Squat", target: "3 × 8-12/leg", start: "20 lb DBs", prog: "Move toward 25s when stable" },
+      { name: "Seated DB Shoulder Press", target: "3 × 8-10", start: "40 lb DBs", prog: "Reach 3×10 before increasing" },
+      { name: "DB Curl", target: "3 × 10-15", start: "25 lb DBs", prog: "Increase after consistent 15 reps" },
+      { name: "Rope Pushdown", target: "3 × 10-15", start: "65 lbs", prog: "Pick a weight you fully control" }
     ],
-    finisher: "Optional (only if in a groove): 3 min AMRAP of DB curls (light weight) – extra arm frequency since arms are your stubborn spot.",
+    finisher: "Optional (only if in a groove): 3 min AMRAP of DB curls (light weight) - extra arm frequency since arms are your stubborn spot.",
     cooldown: [
-      "Chest/front shoulder stretch (doorway stretch) – 30 sec each side",
-      "Lat stretch (overhead reach to the side) – 30 sec each side",
-      "Hip flexor stretch – 30 sec each side",
-      "Box breathing or slow spinal cat-cow – 1 min"
+      "Chest/front shoulder stretch (doorway stretch) - 30 sec each side",
+      "Lat stretch (overhead reach to the side) - 30 sec each side",
+      "Hip flexor stretch - 30 sec each side",
+      "Box breathing or slow spinal cat-cow - 1 min"
     ]
   },
   "Day 3": {
-    label: "Full Body C — Hypertrophy Focus",
+    label: "Full Body C - Hypertrophy Focus",
     warmup: [
-      "Bike or row, easy pace – 3 min (raise core temp, get blood into legs)",
-      "Bodyweight squats – 10 reps (groove the leg press pattern)",
-      "Band pull-aparts – 15 reps (wake up rear delts/upper back for rows & face pulls)",
-      "Hip circles + leg swings – 10 each side (open hips for abduction/adduction work)"
+      "Bike or row, easy pace - 3 min (raise core temp, get blood into legs)",
+      "Bodyweight squats - 10 reps (groove the leg press pattern)",
+      "Band pull-aparts - 15 reps (wake up rear delts/upper back for rows & face pulls)",
+      "Hip circles + leg swings - 10 each side (open hips for abduction/adduction work)"
     ],
     exercises: [
-      { name: "Leg Press", target: "3 × 10–15", start: "235 lbs/side", prog: "Add reps before weight; avoid grinding" },
-      { name: "Bench Press", target: "3 × 8–10", start: "55 lbs", prog: "Add reps/weight once all sets clean" },
-      { name: "Seated Cable Row", target: "3 × 10–12", start: "95 lbs", prog: "Build toward 120+ lbs over time" },
-      { name: "Hip Abduction (wide)", target: "2–3 × 12–20", start: "110 lbs", prog: "Increase when controlled" },
-      { name: "Hip Adduction (narrow)", target: "2–3 × 12–20", start: "165 lbs", prog: "Maintain controlled reps" },
-      { name: "Lying/Seated Leg Curl", target: "3 × 10–15", start: "start light, find your weight", prog: "Add reps before weight — new addition, balances quad-dominant leg press work" },
-      { name: "Lateral Raises", target: "3 × 12–20", start: "10–15 lb DBs", prog: "Keep lighter, strict form" },
-      { name: "Face Pulls", target: "3 × 12–20", start: "80 lbs", prog: "Focus rear delts, not momentum" }
+      { name: "Leg Press", target: "3 × 10-15", start: "235 lbs/side", prog: "Add reps before weight; avoid grinding" },
+      { name: "Bench Press", target: "3 × 8-10", start: "55 lbs", prog: "Add reps/weight once all sets clean" },
+      { name: "Seated Cable Row", target: "3 × 10-12", start: "95 lbs", prog: "Build toward 120+ lbs over time" },
+      { name: "Hip Abduction (wide)", target: "2-3 × 12-20", start: "110 lbs", prog: "Increase when controlled" },
+      { name: "Hip Adduction (narrow)", target: "2-3 × 12-20", start: "165 lbs", prog: "Maintain controlled reps" },
+      { name: "Lying/Seated Leg Curl", target: "3 × 10-15", start: "start light, find your weight", prog: "Add reps before weight - new addition, balances quad-dominant leg press work" },
+      { name: "Lateral Raises", target: "3 × 12-20", start: "10-15 lb DBs", prog: "Keep lighter, strict form" },
+      { name: "Face Pulls", target: "3 × 12-20", start: "80 lbs", prog: "Focus rear delts, not momentum" }
     ],
-    finisher: "Optional (only if in a groove): 3 min AMRAP of EZ bar curls – extra arm volume since arms are your stubborn spot.",
+    finisher: "Optional (only if in a groove): 3 min AMRAP of EZ bar curls - extra arm volume since arms are your stubborn spot.",
     cooldown: [
-      "Quad stretch – 30 sec each side",
-      "Rear delt/lat stretch (cross-body arm pull + overhead lat stretch) – 30 sec each side",
-      "Box breathing or slow spinal cat-cow – 1 min"
+      "Quad stretch - 30 sec each side",
+      "Rear delt/lat stretch (cross-body arm pull + overhead lat stretch) - 30 sec each side",
+      "Box breathing or slow spinal cat-cow - 1 min"
     ]
   },
   "Day 4": {
-    label: "Upper Hypertrophy — Added Day",
+    label: "Upper Hypertrophy - Added Day",
     warmup: [
-      "Bike or row, easy pace – 3 min (raise core temp)",
-      "Band pull-aparts – 15 reps (wake up upper back)",
-      "Scap pull-ups or dead hangs – 30 sec (prime lats/shoulders)",
-      "Arm circles + shoulder dislocates – 10 each direction (open shoulders for pressing)",
-      "Light band curls/pushdowns – 10 reps each (prime elbow flexors/extensors)"
+      "Bike or row, easy pace - 3 min (raise core temp)",
+      "Band pull-aparts - 15 reps (wake up upper back)",
+      "Scap pull-ups or dead hangs - 30 sec (prime lats/shoulders)",
+      "Arm circles + shoulder dislocates - 10 each direction (open shoulders for pressing)",
+      "Light band curls/pushdowns - 10 reps each (prime elbow flexors/extensors)"
     ],
     exercises: [
-      { name: "Incline DB Press", target: "3–4 × 8–12", start: "45 lb DBs", prog: "Build toward 50s" },
-      { name: "Pull-Ups / Lat Pulldown", target: "3–4 × 8–12", start: "115 lbs", prog: "Match Day 2 or add reps" },
-      { name: "Chest-Supported / Cable Row", target: "3 × 10–12", start: "50 lb DBs", prog: "Add reps before weight" },
-      { name: "DB Shoulder Press", target: "3 × 8–12", start: "40 lb DBs", prog: "Keep 1–2 reps in reserve" },
-      { name: "Rear Delt Fly", target: "3 × 15–20", start: "55 lbs", prog: "Controlled reps" },
-      { name: "EZ Bar Curl", target: "3 × 10–15", start: "50 lbs", prog: "Add weight slowly" },
-      { name: "Rope Pushdown", target: "3 × 10–15", start: "65 lbs", prog: "Match Day 2" }
+      { name: "Incline DB Press", target: "3-4 × 8-12", start: "45 lb DBs", prog: "Build toward 50s" },
+      { name: "Pull-Ups / Lat Pulldown", target: "3-4 × 8-12", start: "115 lbs", prog: "Match Day 2 or add reps" },
+      { name: "Chest-Supported / Cable Row", target: "3 × 10-12", start: "50 lb DBs", prog: "Add reps before weight" },
+      { name: "DB Shoulder Press", target: "3 × 8-12", start: "40 lb DBs", prog: "Keep 1-2 reps in reserve" },
+      { name: "Rear Delt Fly", target: "3 × 15-20", start: "55 lbs", prog: "Controlled reps" },
+      { name: "EZ Bar Curl", target: "3 × 10-15", start: "50 lbs", prog: "Add weight slowly" },
+      { name: "Rope Pushdown", target: "3 × 10-15", start: "65 lbs", prog: "Match Day 2" }
     ],
-    finisher: "Optional (only if in a groove): Tabata (20 sec on/10 sec off × 8 rounds) alternating curls and pushdowns – arm-focused finisher.",
+    finisher: "Optional (only if in a groove): Tabata (20 sec on/10 sec off × 8 rounds) alternating curls and pushdowns - arm-focused finisher.",
     cooldown: [
-      "Chest/front shoulder stretch (doorway stretch) – 30 sec each side",
-      "Lat stretch (overhead reach to the side) – 30 sec each side",
-      "Triceps/biceps stretch – 30 sec each side",
-      "Box breathing or slow spinal cat-cow – 1 min"
+      "Chest/front shoulder stretch (doorway stretch) - 30 sec each side",
+      "Lat stretch (overhead reach to the side) - 30 sec each side",
+      "Triceps/biceps stretch - 30 sec each side",
+      "Box breathing or slow spinal cat-cow - 1 min"
     ]
   },
   "Day 5": {
-    label: "Conditioning — Easy Run",
+    label: "Conditioning - Easy Run",
     warmup: [
-      "Brisk walk – 3 min (ease into it)",
-      "Leg swings (front/back + side/side) – 10 each side (open hips)",
-      "Ankle circles + calf raises – 10 each (prep for impact)"
+      "Brisk walk - 3 min (ease into it)",
+      "Leg swings (front/back + side/side) - 10 each side (open hips)",
+      "Ankle circles + calf raises - 10 each (prep for impact)"
     ],
     exercises: [
-      { name: "Easy Run", target: "20–30 min, conversational pace", start: "whatever pace lets you talk in full sentences", prog: "Add 5 min/week; this stays easy — it's recovery + fat-loss cardio, not a hard effort" }
+      { name: "Easy Run", target: "20-30 min, conversational pace", start: "whatever pace lets you talk in full sentences", prog: "Add 5 min/week; this stays easy - it's recovery + fat-loss cardio, not a hard effort", cardio: true, field1Label: "Duration (min)", field2Label: "How it felt" }
     ],
     finisher: null,
     cooldown: [
-      "Walk it out – 3–5 min easy pace",
-      "Calf stretch – 30 sec each side",
-      "Quad + hamstring stretch – 30 sec each side"
+      "Walk it out - 3-5 min easy pace",
+      "Calf stretch - 30 sec each side",
+      "Quad + hamstring stretch - 30 sec each side"
     ]
   },
   "Day 6": {
-    label: "Conditioning — Intervals",
+    label: "Conditioning - Intervals",
     warmup: [
-      "Easy jog – 5 min (build up gradually, don't start hard)",
-      "Leg swings (front/back + side/side) – 10 each side",
-      "2–3 strides (short accelerations to ~80% effort) – 20 sec each, full recovery between"
+      "Easy jog - 5 min (build up gradually, don't start hard)",
+      "Leg swings (front/back + side/side) - 10 each side",
+      "2-3 strides (short accelerations to ~80% effort) - 20 sec each, full recovery between"
     ],
     exercises: [
-      { name: "Interval Repeats", target: "6 × 400m hard / 2 min easy jog between", start: "hard = ~80–85% effort, not an all-out sprint", prog: "Add 1 rep every 2 weeks, or shorten recovery to 90 sec once 6 reps feel manageable" }
+      { name: "Interval Repeats", target: "6 × 400m hard / 2 min easy jog between", start: "hard = ~80-85% effort, not an all-out sprint", prog: "Add 1 rep every 2 weeks, or shorten recovery to 90 sec once 6 reps feel manageable", cardio: true, field1Label: "Reps completed", field2Label: "Pace / effort notes" }
     ],
     finisher: null,
     cooldown: [
-      "Easy jog or walk – 5 min",
-      "Calf stretch – 30 sec each side",
-      "Quad + hamstring stretch – 30 sec each side",
-      "Box breathing – 1 min"
+      "Easy jog or walk - 5 min",
+      "Calf stretch - 30 sec each side",
+      "Quad + hamstring stretch - 30 sec each side",
+      "Box breathing - 1 min"
     ]
   }
 };
 
 const STORAGE_KEY = "colin-training-log-state";
-let state = { history: [], lastDay: "Day 1", deload: false };
+let state = { history: [], lastDay: "Day 1", deload: false, drafts: {} };
 let activeDay = state.lastDay;
 
 async function loadState() {
@@ -452,12 +466,12 @@ async function loadState() {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) {
       const parsed = JSON.parse(raw);
-      return { history: [], lastDay: "Day 1", deload: false, ...parsed };
+      return { history: [], lastDay: "Day 1", deload: false, drafts: {}, ...parsed };
     }
   } catch (e) {
     console.error("loadState error:", e);
   }
-  return { history: [], lastDay: "Day 1", deload: false };
+  return { history: [], lastDay: "Day 1", deload: false, drafts: {} };
 }
 async function saveState() {
   try {
@@ -489,7 +503,49 @@ function buildTabs() {
   });
 }
 
-// ---------- Render workout ----------
+// ---------- Draft state (in-progress, unsaved inputs) ----------
+// Render rebuilds the DOM from scratch on every call (deload toggle, tab
+// switches, etc.), which would normally wipe anything you've typed but not
+// yet saved. These helpers persist every keystroke to state.drafts so a
+// rebuild can restore exactly what was there.
+function getDraftSet(dayName, exName, setIdx) {
+  return state.drafts?.[dayName]?.[exName]?.[setIdx] || null;
+}
+function updateDraft(dayName, exName, setIdx, field, value) {
+  if (!state.drafts) state.drafts = {};
+  if (!state.drafts[dayName]) state.drafts[dayName] = {};
+  if (!state.drafts[dayName][exName]) state.drafts[dayName][exName] = [];
+  if (!state.drafts[dayName][exName][setIdx]) state.drafts[dayName][exName][setIdx] = {};
+  state.drafts[dayName][exName][setIdx][field] = value;
+}
+function clearDraftsForDay(dayName) {
+  if (state.drafts) delete state.drafts[dayName];
+}
+
+// Builds the blue "last week" note: what you actually logged last time, plus
+// what to do this week based on those numbers.
+function buildWeeklyNote(ex, last, suggestion) {
+  if (!last || !last.sets.length) return null;
+  if (ex.cardio) {
+    const v1 = last.sets[0] ? last.sets[0].weight : "";
+    const v2 = last.sets[0] ? last.sets[0].reps : "";
+    const parts = [];
+    if (v1) parts.push(`${v1}${(ex.field1Label || "").toLowerCase().includes("duration") ? " min" : ""}`);
+    if (v2) parts.push(v2);
+    return `<div class="week-note">Last time: ${parts.join(" · ") || "logged"} — ${ex.prog}</div>`;
+  }
+  const setSummary = last.sets.map(s => `${s.weight || "?"}×${s.reps || "?"}`).join(", ");
+  let directive;
+  if (suggestion) {
+    directive = suggestion.up
+      ? `try ${suggestion.weight} lbs this week — you hit the top of the rep range`
+      : `hold at ${suggestion.weight} lbs, aim to add a rep or two before going up`;
+  } else {
+    directive = "keep this as your baseline going forward";
+  }
+  return `<div class="week-note">Last week: ${setSummary} → ${directive}</div>`;
+}
+
 function getLastLog(exName) {
   for (let i = state.history.length - 1; i >= 0; i--) {
     const h = state.history[i];
@@ -499,7 +555,7 @@ function getLastLog(exName) {
   return null;
 }
 
-// Parses a target string like "3 × 5–8" or "2–3 × 12–20" into the top of the rep range.
+// Parses a target string like "3 × 5-8" or "2-3 × 12-20" into the top of the rep range.
 function parseTopReps(targetStr) {
   const matches = targetStr.match(/(\d+)(?:[\u2013\u2014-](\d+))?\s*$/);
   if (!matches) return null;
@@ -507,7 +563,7 @@ function parseTopReps(targetStr) {
   return isNaN(high) ? null : high;
 }
 
-// Pulls a weight increment out of a prog note like "+5–10 lbs" or "+5 lbs". Falls back to 5.
+// Pulls a weight increment out of a prog note like "+5-10 lbs" or "+5 lbs". Falls back to 5.
 function parseIncrement(progStr) {
   const m = progStr && progStr.match(/\+(\d+)/);
   return m ? parseInt(m[1], 10) : 5;
@@ -608,7 +664,7 @@ function render() {
   if (state.deload) {
     const banner = document.createElement("div");
     banner.className = "deload-banner";
-    banner.textContent = "Deload week — cut sets by ~40% (e.g. 3 sets → 2) and drop the load ~20% on everything below.";
+    banner.textContent = "Deload week - cut sets by ~40% (e.g. 3 sets → 2) and drop the load ~20% on everything below.";
     main.appendChild(banner);
   }
 
@@ -629,13 +685,11 @@ function render() {
     card.className = "exercise-card";
     card.dataset.exName = ex.name;
 
-    // Number of set rows always comes from the program's prescribed set count
-    // (e.g. "3 × 5–8" -> 3), never from how many sets you happened to save
-    // last time — a partial or skipped save shouldn't shrink the card.
-    const setCountMatch = ex.target.match(/^(\d+)(?:[\u2013\u2014-](\d+))?/);
-    const numSets = setCountMatch
-      ? parseInt(setCountMatch[2] || setCountMatch[1], 10)
-      : 3;
+    // Every strength exercise always gets exactly 3 set rows, full stop -
+    // never derived from how many sets happened to get saved last time (a
+    // partial or skipped save shouldn't shrink the card). Cardio days log a
+    // single session, not sets.
+    const numSets = ex.cardio ? 1 : 3;
 
     // Starting weight for every set this session: the suggested weight (if we
     // have enough history to suggest one), else the last weight you logged for
@@ -650,34 +704,52 @@ function render() {
       if (lastWeights.length) startingWeight = lastWeights[lastWeights.length - 1];
     }
     if (startingWeight === "") {
-      startingWeight = ex.start.replace(/[^0-9.]/g, "");
+      // Grab just the FIRST number in the starting text (e.g. "10-15 lb DBs"
+      // -> "10"). Stripping all non-digits used to concatenate range numbers
+      // together (e.g. "10-15" became "1015").
+      const m = ex.start.match(/\d+(\.\d+)?/);
+      startingWeight = m ? m[0] : "";
     }
 
     let setsHtml = "";
-    for (let s = 0; s < numSets; s++) {
-      const lastSet = last && last.sets[s] ? last.sets[s] : null;
-      const placeholderReps = lastSet ? lastSet.reps : "";
-      setsHtml += `
+    if (ex.cardio) {
+      const draftSet = getDraftSet(activeDay, ex.name, 0) || {};
+      const val1 = draftSet.weight !== undefined ? draftSet.weight : "";
+      const val2 = draftSet.reps !== undefined ? draftSet.reps : "";
+      setsHtml = `
         <div class="set-row">
-          <label>Set ${s + 1}</label>
-          <input type="number" inputmode="decimal" class="wt-input" value="${startingWeight}" data-set="${s}">
-          <span class="x">×</span>
-          <input type="number" inputmode="numeric" class="reps-input" placeholder="${placeholderReps || 'reps'}" data-set="${s}">
+          <label style="width:auto; flex:0 0 130px;">${ex.field1Label || "Value"}</label>
+          <input type="number" inputmode="decimal" class="wt-input" value="${val1}" data-set="0">
+        </div>
+        <div class="set-row">
+          <label style="width:auto; flex:0 0 130px;">${ex.field2Label || "Notes"}</label>
+          <input type="text" class="reps-input" value="${val2}" data-set="0">
         </div>`;
+    } else {
+      for (let s = 0; s < numSets; s++) {
+        const draftSet = getDraftSet(activeDay, ex.name, s);
+        const lastSet = last && last.sets[s] ? last.sets[s] : null;
+        const wtValue = (draftSet && draftSet.weight !== undefined && draftSet.weight !== "") ? draftSet.weight : startingWeight;
+        const repsValue = (draftSet && draftSet.reps !== undefined) ? draftSet.reps : "";
+        const placeholderReps = lastSet ? lastSet.reps : "";
+        setsHtml += `
+          <div class="set-row">
+            <label>Set ${s + 1}</label>
+            <input type="number" inputmode="decimal" class="wt-input" value="${wtValue}" data-set="${s}">
+            <span class="x">×</span>
+            <input type="number" inputmode="numeric" class="reps-input" value="${repsValue}" placeholder="${placeholderReps || 'reps'}" data-set="${s}">
+          </div>`;
+      }
     }
 
-    const badgeHtml = suggestion
-      ? (suggestion.up
-          ? `<div class="suggest-badge up">↑ Try ${suggestion.weight} lbs — you hit the top last time</div>`
-          : `<div class="suggest-badge hold">Hold at ${suggestion.weight} lbs — add reps before adding weight</div>`)
-      : "";
+    const weekNoteHtml = buildWeeklyNote(ex, last, suggestion) || "";
 
     card.innerHTML = `
       <div class="ex-head">
         <div>
           <div class="ex-name">${ex.name}</div>
           <div class="ex-target">${ex.target} · starting ${ex.start}</div>
-          ${badgeHtml}
+          ${weekNoteHtml}
         </div>
         <button class="check-btn" data-idx="${idx}">✓</button>
       </div>
@@ -690,6 +762,23 @@ function render() {
       card.classList.toggle("done");
       e.target.classList.toggle("checked");
     };
+
+    // Persist every keystroke to the draft so a re-render (deload toggle,
+    // switching tabs and back, etc.) never loses what you've typed.
+    card.querySelectorAll(".wt-input").forEach(inp => {
+      inp.oninput = async () => {
+        const s = parseInt(inp.dataset.set, 10);
+        updateDraft(activeDay, ex.name, s, "weight", inp.value);
+        await saveState();
+      };
+    });
+    card.querySelectorAll(".reps-input").forEach(inp => {
+      inp.oninput = async () => {
+        const s = parseInt(inp.dataset.set, 10);
+        updateDraft(activeDay, ex.name, s, "reps", inp.value);
+        await saveState();
+      };
+    });
   });
 
   if (dayData.finisher) {
@@ -754,6 +843,7 @@ async function handleSave() {
   };
 
   state.history.push(entry);
+  clearDraftsForDay(activeDay);
 
   saveBtn.disabled = true;
   saveBtn.textContent = "Saving…";
@@ -802,25 +892,75 @@ init();
 let showingHistory = false;
 let historySubTab = "log"; // "log" | "trends"
 
+function renderHistoryItemView(item, h, index) {
+  const exLines = h.exercises.map(e => {
+    const setStr = e.sets.map(s => `${s.weight || "?"}×${s.reps || "?"}`).join(", ");
+    return `<div class="h-ex">${e.name}: ${setStr}</div>`;
+  }).join("");
+  item.innerHTML = `
+    <div class="h-date">${h.date}</div>
+    <div class="h-day">${h.label}</div>
+    ${exLines}
+    <button class="h-edit-btn">Edit</button>
+  `;
+  item.querySelector(".h-edit-btn").onclick = () => renderHistoryItemEdit(item, h, index);
+}
+
+function renderHistoryItemEdit(item, h, index) {
+  const exEditHtml = h.exercises.map((e, exIdx) => {
+    const setsHtml = e.sets.map((s, sIdx) => `
+      <div class="set-row">
+        <label>Set ${sIdx + 1}</label>
+        <input type="number" inputmode="decimal" class="edit-wt" data-ex="${exIdx}" data-set="${sIdx}" value="${s.weight || ''}">
+        <span class="x">×</span>
+        <input type="number" inputmode="numeric" class="edit-reps" data-ex="${exIdx}" data-set="${sIdx}" value="${s.reps || ''}">
+      </div>
+    `).join("");
+    return `<div class="edit-ex-block"><div class="edit-ex-name">${e.name}</div>${setsHtml}</div>`;
+  }).join("");
+
+  item.innerHTML = `
+    <div class="h-date">${h.date}</div>
+    <div class="h-day">${h.label}</div>
+    ${exEditHtml}
+    <div style="display:flex; gap:8px; margin-top:12px;">
+      <button class="btn btn-secondary h-cancel-btn" style="padding:10px; font-size:13px;">Cancel</button>
+      <button class="btn btn-primary h-save-btn" style="padding:10px; font-size:13px;">Save changes</button>
+    </div>
+  `;
+
+  item.querySelector(".h-cancel-btn").onclick = () => renderHistoryItemView(item, h, index);
+  item.querySelector(".h-save-btn").onclick = async () => {
+    item.querySelectorAll(".edit-wt, .edit-reps").forEach(inp => {
+      const exIdx = parseInt(inp.dataset.ex, 10);
+      const sIdx = parseInt(inp.dataset.set, 10);
+      const field = inp.classList.contains("edit-wt") ? "weight" : "reps";
+      h.exercises[exIdx].sets[sIdx][field] = inp.value;
+    });
+    const r = await saveState();
+    if (!r.ok) {
+      showToast("Save failed: " + (r.error || "unknown error"), true);
+      return;
+    }
+    showToast("History updated ✓", false);
+    renderHistoryItemView(item, h, index);
+  };
+}
+
 function renderHistoryLog(main) {
   if (!state.history.length) {
     main.innerHTML = `<div class="empty">No workouts logged yet.<br>Log your first session and it'll show up here.</div>`;
     return;
   }
-  [...state.history].reverse().forEach(h => {
-    const item = document.createElement("div");
-    item.className = "history-item";
-    const exLines = h.exercises.map(e => {
-      const setStr = e.sets.map(s => `${s.weight || "?"}×${s.reps || "?"}`).join(", ");
-      return `<div class="h-ex">${e.name}: ${setStr}</div>`;
-    }).join("");
-    item.innerHTML = `
-      <div class="h-date">${h.date}</div>
-      <div class="h-day">${h.label}</div>
-      ${exLines}
-    `;
-    main.appendChild(item);
-  });
+  [...state.history]
+    .map((h, realIndex) => ({ h, realIndex }))
+    .reverse()
+    .forEach(({ h, realIndex }) => {
+      const item = document.createElement("div");
+      item.className = "history-item";
+      renderHistoryItemView(item, h, realIndex);
+      main.appendChild(item);
+    });
 }
 
 function renderHistoryTrends(main) {
