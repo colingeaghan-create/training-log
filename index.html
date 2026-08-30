@@ -995,6 +995,56 @@ function renderHistoryTrends(main) {
   });
 }
 
+// ---------- Backup / Restore ----------
+// Local storage lives only on this device/browser - nothing is synced
+// anywhere. These let you save a real file (to Files, iCloud Drive, email to
+// yourself, etc.) as an independent safety net, and load it back if this
+// device's storage is ever cleared or wiped.
+function exportBackup() {
+  const payload = JSON.stringify(state, null, 2);
+  const blob = new Blob([payload], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  const stamp = new Date().toISOString().slice(0, 10);
+  a.href = url;
+  a.download = `training-log-backup-${stamp}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast("Backup file downloaded ✓", false);
+}
+
+function importBackup(file) {
+  const reader = new FileReader();
+  reader.onload = async () => {
+    let parsed;
+    try {
+      parsed = JSON.parse(reader.result);
+    } catch (e) {
+      showToast("That file isn't valid JSON", true);
+      return;
+    }
+    if (!parsed || !Array.isArray(parsed.history)) {
+      showToast("That file doesn't look like a training log backup", true);
+      return;
+    }
+    const confirmed = window.confirm(
+      `This will replace your current data with the backup (${parsed.history.length} workouts). Continue?`
+    );
+    if (!confirmed) return;
+    state = { history: [], lastDay: "Day 1", deload: false, drafts: {}, ...parsed };
+    const r = await saveState();
+    if (!r.ok) {
+      showToast("Restore failed: " + (r.error || "unknown error"), true);
+      return;
+    }
+    showToast("Backup restored ✓", false);
+    renderHistory();
+  };
+  reader.readAsText(file);
+}
+
 function renderHistory() {
   const main = document.getElementById("main");
   main.innerHTML = "";
@@ -1003,6 +1053,21 @@ function renderHistory() {
   title.className = "day-title";
   title.textContent = "Workout History";
   main.appendChild(title);
+
+  const backupRow = document.createElement("div");
+  backupRow.style.cssText = "display:flex; gap:8px; margin-bottom:14px;";
+  backupRow.innerHTML = `
+    <button class="btn btn-secondary" id="backupBtn" style="flex:1; padding:10px; font-size:12.5px;">Backup</button>
+    <button class="btn btn-secondary" id="restoreBtn" style="flex:1; padding:10px; font-size:12.5px;">Restore</button>
+    <input type="file" id="restoreFileInput" accept="application/json" style="display:none;">
+  `;
+  main.appendChild(backupRow);
+  document.getElementById("backupBtn").onclick = exportBackup;
+  document.getElementById("restoreBtn").onclick = () => document.getElementById("restoreFileInput").click();
+  document.getElementById("restoreFileInput").onchange = (e) => {
+    if (e.target.files && e.target.files[0]) importBackup(e.target.files[0]);
+    e.target.value = "";
+  };
 
   const subtabs = document.createElement("div");
   subtabs.className = "history-subtabs";
