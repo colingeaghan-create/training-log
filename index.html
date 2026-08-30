@@ -34,7 +34,7 @@
     padding-bottom: 80px;
   }
   header {
-    padding: 20px 16px 12px;
+    padding: calc(20px + env(safe-area-inset-top)) 16px 12px;
     position: sticky;
     top: 0;
     background: var(--bg);
@@ -50,7 +50,7 @@
     overflow-x: auto;
     background: var(--bg);
     position: sticky;
-    top: 62px;
+    top: calc(62px + env(safe-area-inset-top));
     z-index: 9;
     border-bottom: 1px solid var(--border);
   }
