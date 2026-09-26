@@ -1,4 +1,4 @@
-html
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -800,8 +800,17 @@ function render() {
     card.className = "exercise-card";
     card.dataset.exName = ex.name;
 
+    // Every strength exercise always gets exactly 3 set rows, full stop -
+    // never derived from how many sets happened to get saved last time (a
+    // partial or skipped save shouldn't shrink the card). Cardio days log a
+    // single session, not sets.
     const numSets = ex.cardio ? 1 : 3;
 
+    // Starting weight for every set this session: the suggested weight (if we
+    // have enough history to suggest one), else the last weight you logged for
+    // this exercise, else the program's default starting weight. This value is
+    // pre-filled as the actual input value (not just a placeholder) so saving
+    // without touching the field still records the right weight.
     let startingWeight = "";
     if (suggestion) {
       startingWeight = suggestion.weight;
@@ -810,6 +819,9 @@ function render() {
       if (lastWeights.length) startingWeight = lastWeights[lastWeights.length - 1];
     }
     if (startingWeight === "") {
+      // Grab just the FIRST number in the starting text (e.g. "10-15 lb DBs"
+      // -> "10"). Stripping all non-digits used to concatenate range numbers
+      // together (e.g. "10-15" became "1015").
       const m = ex.start.match(/\d+(\.\d+)?/);
       startingWeight = m ? m[0] : "";
     }
@@ -867,6 +879,8 @@ function render() {
       e.target.classList.toggle("checked");
     };
 
+    // Persist every keystroke to the draft so a re-render (e.g.
+    // switching tabs and back) never loses what you've typed.
     card.querySelectorAll(".wt-input").forEach(inp => {
       inp.oninput = async () => {
         const s = parseInt(inp.dataset.set, 10);
@@ -903,6 +917,9 @@ function render() {
     main.appendChild(cd);
   }
 
+  // Notes: anything worth remembering about today's session (how you felt,
+  // a form cue that clicked, a niggle to watch). Saves into history alongside
+  // the sets when you hit "Save Workout".
   const notesBlock = document.createElement("div");
   notesBlock.className = "section-block";
   const draftNote = getDraftNote(activeDay);
@@ -977,6 +994,7 @@ async function handleSave() {
 
     showToast(db ? "Saved ✓" : "Saved on this device only - database unavailable right now", !db);
 
+    // reset inputs
     document.querySelectorAll(".wt-input, .reps-input").forEach(i => i.value = "");
     if (notesInput) notesInput.value = "";
     document.querySelectorAll(".exercise-card").forEach(c => {
@@ -1128,7 +1146,10 @@ function renderHistoryItemEdit(item, h, index) {
 
 function renderHistoryLog(main) {
   if (!state.history.length) {
-    main.innerHTML = `<div class="empty">No workouts logged yet.<br>Log your first session and it'll show up here.</div>`;
+    const empty = document.createElement("div");
+    empty.className = "empty";
+    empty.innerHTML = `No workouts logged yet.<br>Log your first session and it'll show up here.`;
+    main.appendChild(empty);
     return;
   }
   [...state.history]
@@ -1143,6 +1164,7 @@ function renderHistoryLog(main) {
 }
 
 function renderHistoryTrends(main) {
+  // Collect exercise names in the order they first appeared, across all history.
   const seen = [];
   state.history.forEach(h => {
     h.exercises.forEach(e => { if (!seen.includes(e.name)) seen.push(e.name); });
@@ -1150,10 +1172,13 @@ function renderHistoryTrends(main) {
 
   const chartable = seen
     .map(name => ({ name, points: getExerciseTrend(name) }))
-    .filter(t => t.points.length >= 2);
+    .filter(t => t.points.length >= 2); // need at least 2 weeks of data for a trend line
 
   if (!chartable.length) {
-    main.innerHTML = `<div class="empty">Log the same exercise across a couple more weeks<br>to start seeing trend lines here.</div>`;
+    const empty = document.createElement("div");
+    empty.className = "empty";
+    empty.innerHTML = `Log the same exercise across a couple more weeks<br>to start seeing trend lines here.`;
+    main.appendChild(empty);
     return;
   }
 
@@ -1174,6 +1199,10 @@ function renderHistoryTrends(main) {
 }
 
 // ---------- Backup / Restore ----------
+// Local storage lives only on this device/browser - nothing is synced
+// anywhere. These let you save a real file (to Files, iCloud Drive, email to
+// yourself, etc.) as an independent safety net, and load it back if this
+// device's storage is ever cleared or wiped.
 async function exportBackup() {
   const payload = JSON.stringify(state, null, 2);
   const blob = new Blob([payload], { type: "application/json" });
@@ -1192,6 +1221,9 @@ async function exportBackup() {
     return;
   }
 
+  // Plain browsers (like this one on GitHub Pages) can just use a normal
+  // download link - only the sandboxed Claude artifact viewer needs the
+  // downloads capability above.
   try {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -1229,6 +1261,8 @@ function importBackup(file) {
 
     try {
       if (db) {
+        // Clear out whatever's currently in the database, then write the
+        // backup's entries in as fresh documents.
         const existing = await db.collection("workouts").get();
         for (const d of existing.docs) {
           await db.doc(`workouts/${d.id}`).delete();
