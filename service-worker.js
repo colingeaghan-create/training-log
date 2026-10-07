@@ -1,4 +1,4 @@
-const CACHE_NAME = "training-log-v2";
+const CACHE_NAME = "training-log-v3";
 const ASSETS = [
   "./",
   "./index.html",
@@ -24,10 +24,13 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
-  // Network-first: always try to get the latest version. Only fall back to
-  // the cached copy if the network is unavailable (offline use).
+  if (event.request.method !== "GET") return;
+  // Network-first, and bypass the browser HTTP cache (GitHub Pages sends a
+  // 10-minute max-age) so updates show up immediately. Cached copy is only an
+  // offline fallback.
+  const req = new Request(event.request, { cache: "no-store" });
   event.respondWith(
-    fetch(event.request)
+    fetch(req)
       .then((response) => {
         if (response.ok) {
           const clone = response.clone();
