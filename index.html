@@ -178,6 +178,29 @@
     border-radius: 12px; padding: 12px; color: var(--text); font-size: 16px; font-family: inherit;
   }
   .cardio-field textarea { min-height: 90px; resize: vertical; line-height: 1.4; }
+  .notes-field {
+    width: 100%;
+    min-height: 96px;
+    resize: vertical;
+    background: var(--card-hi);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px 14px;
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.45;
+  }
+  .notes-field:focus { outline: none; border-color: var(--ink); background: #fff; }
+  .h-notes {
+    margin-top: 10px;
+    padding: 10px 12px;
+    background: var(--card-hi);
+    border-radius: 12px;
+    font-size: 13.5px;
+    line-height: 1.45;
+    white-space: pre-wrap;
+  }
   .week-note {
     display: block;
     background: var(--blue-bg);
@@ -297,11 +320,11 @@ const PROGRAM = {
       "Glute bridges - 12 reps (wake up glutes before loading)"
     ],
     exercises: [
-      { name: "Back Squat", target: "4 × 5-8", start: "80 lbs", prog: "Primary quad lift - push the last 1-2 reps of your final set to true failure; add 5-10 lbs once all sets hit 8 clean reps" },
-      { name: "Leg Press", target: "3 × 8-10", start: "230 lbs", prog: "Second heavy quad movement - drive through full range, take the last set to failure" },
+      { name: "Back Squat", target: "4 × 5-8", start: "90 lbs", prog: "Primary quad lift - push the last 1-2 reps of your final set to true failure; add 5-10 lbs once all sets hit 8 clean reps" },
+      { name: "Leg Press", target: "3 × 8-10", start: "290 lbs", fresh: true, prog: "Second heavy quad movement - drive through full range, take the last set to failure" },
       { name: "Walking Lunges", target: "3 × 10-12/leg", start: "20 lb DBs", prog: "Add reps before weight; keep torso upright" },
       { name: "Leg Extension", target: "3 × 12-15", start: "70 lbs", prog: "Isolation finisher - squeeze hard at the top, failure on the last set" },
-      { name: "Lying Leg Curl", target: "3 × 12-15", start: "50 lbs", prog: "Full stretch at the bottom, controlled squeeze at the top" },
+      { name: "Lying/Seated Leg Curl", target: "3 × 12-15", start: "95 lbs", prog: "Full stretch at the bottom, controlled squeeze at the top" },
       { name: "Standing Calf Raise", target: "4 × 12-15", start: "90 lbs", prog: "Full stretch and a pause at the top; push the last set to failure" }
     ],
     finisher: null,
@@ -319,13 +342,13 @@ const PROGRAM = {
       "Shoulder dislocates (band or PVC) - 10 reps"
     ],
     exercises: [
-      { name: "Flat Barbell Bench Press", target: "4 × 5-8", start: "55 lbs", prog: "Primary chest lift - true failure on the last 1-2 reps of your final set; add 5 lbs once all sets hit 8" },
-      { name: "Incline DB Press", target: "3 × 8-10", start: "40 lb DBs", prog: "Upper chest focus - controlled negative, push hard on the last set" },
+      { name: "Bench Press", target: "4 × 5-8", start: "60 lbs", prog: "Primary chest lift - true failure on the last 1-2 reps of your final set; add 5 lbs once all sets hit 8" },
+      { name: "Incline DB Press", target: "3 × 8-10", start: "50 lb DBs", fresh: true, prog: "Upper chest focus - controlled negative, push hard on the last set" },
       { name: "Cable Fly", target: "3 × 12-15", start: "20 lbs per side", prog: "Isolation - squeeze and hold 1 sec at peak contraction" },
-      { name: "Seated DB Shoulder Press", target: "3 × 8-10", start: "35 lb DBs", prog: "Primary shoulder lift this day" },
-      { name: "Lateral Raise", target: "3 × 12-15", start: "15 lb DBs", prog: "Strict form, no swinging - failure on the last set" },
-      { name: "Triceps Rope Pushdown", target: "3 × 12-15", start: "60 lbs", prog: "Full lockout, squeeze the triceps hard" },
-      { name: "Overhead Triceps Extension", target: "2 × 12-15", start: "30 lbs", prog: "Finisher - full stretch at the bottom, failure on the last set" }
+      { name: "Seated DB Shoulder Press", target: "3 × 8-10", start: "45 lb DBs", prog: "Primary shoulder lift this day" },
+      { name: "DB Lateral Raise", target: "3 × 12-15", start: "15 lb DBs", prog: "Strict form, no swinging - failure on the last set" },
+      { name: "Rope Pushdown", target: "3 × 12-15", start: "40 lbs", prog: "Full lockout, squeeze the triceps hard" },
+      { name: "Overhead Triceps Extension", target: "2 × 12-15", start: "25 lbs", prog: "Finisher - full stretch at the bottom, failure on the last set" }
     ],
     finisher: null,
     cooldown: [
@@ -342,14 +365,14 @@ const PROGRAM = {
       "Cat-cow - 1 min (mobilize the spine)"
     ],
     exercises: [
-      { name: "Deadlift", target: "4 × 5-8", start: "135 lbs", prog: "Primary pull lift - reset each rep, push the final set to failure with good form" },
-      { name: "Weighted Pull-Up / Lat Pulldown", target: "3 × 8-10", start: "130 lbs", prog: "Full stretch at the top, drive the elbows down" },
-      { name: "Chest-Supported Row", target: "3 × 8-10", start: "50 lb DBs", prog: "Squeeze the shoulder blades together at the top" },
-      { name: "Single-Arm Cable Row", target: "3 × 12-15", start: "40 lbs", prog: "Isolation finisher - failure on the last set" },
-      { name: "EZ Bar Curl", target: "3 × 8-10", start: "50 lbs", prog: "Primary biceps lift this day - strict form, no swinging" },
-      { name: "Hammer Curl", target: "3 × 12-15", start: "20 lb DBs", prog: "Finisher - push to failure on the last set" },
-      { name: "Cable Crunch", target: "3 × 12-15", start: "50 lbs", prog: "Round the spine, contract the abs hard" },
-      { name: "Hanging Leg Raise", target: "3 × 10-15", start: "Bodyweight (0 lbs added)", prog: "Controlled - no swinging" }
+      { name: "Trap Bar Deadlift", target: "4 × 5-8", start: "110 lbs", prog: "Primary pull lift - reset each rep, push the final set to failure with good form" },
+      { name: "Pull-Ups / Lat Pulldown", target: "3 × 8-10", start: "145 lbs", fresh: true, prog: "Full stretch at the top, drive the elbows down" },
+      { name: "Chest-Supported Row", target: "3 × 8-10", start: "135 lbs", fresh: true, prog: "Squeeze the shoulder blades together at the top" },
+      { name: "Single-Arm Cable Row", target: "3 × 12-15", start: "50 lbs", prog: "Isolation finisher - failure on the last set" },
+      { name: "EZ Bar Curl", target: "3 × 8-10", start: "60 lbs", fresh: true, prog: "Primary biceps lift this day - strict form, no swinging" },
+      { name: "Hammer Curl", target: "3 × 12-15", start: "25 lb DBs", prog: "Finisher - push to failure on the last set" },
+      { name: "Decline Crunch", target: "3 × 12-15", start: "Bodyweight (0 lbs added)", prog: "Curl up slowly and squeeze the abs; hold a plate on your chest once 15 clean reps feels easy" },
+      { name: "Hanging Leg Raises", target: "3 × 10-15", start: "Bodyweight (0 lbs added)", prog: "Controlled - no swinging" }
     ],
     finisher: null,
     cooldown: [
@@ -367,11 +390,11 @@ const PROGRAM = {
       "World's greatest stretch - 5 each side (open hips)"
     ],
     exercises: [
-      { name: "Romanian Deadlift", target: "4 × 6-8", start: "95 lbs", prog: "Primary hamstring/glute lift - feel the stretch, push the final set to true failure" },
-      { name: "Hip Thrust", target: "3 × 8-10", start: "135 lbs", prog: "Squeeze the glutes hard at the top of every rep" },
-      { name: "Bulgarian Split Squat", target: "3 × 8-10/leg", start: "20 lb DBs", prog: "Full range, control the descent" },
-      { name: "Seated Leg Curl", target: "3 × 12-15", start: "60 lbs", prog: "Isolation - full squeeze at the top" },
-      { name: "Goblet Squat", target: "3 × 12-15", start: "40 lb DB", prog: "Higher-rep quad finisher, different angle than Day 1" },
+      { name: "Romanian Deadlift", target: "4 × 6-8", start: "100 lbs", prog: "Primary hamstring/glute lift - feel the stretch, push the final set to true failure" },
+      { name: "Hip Thrust", target: "3 × 8-10", start: "115 lbs", prog: "Squeeze the glutes hard at the top of every rep" },
+      { name: "Bulgarian Split Squat", target: "3 × 8-10/leg", start: "25 lb DBs", fresh: true, prog: "Full range, control the descent" },
+      { name: "Lying/Seated Leg Curl", target: "3 × 12-15", start: "95 lbs", prog: "Isolation - full squeeze at the top" },
+      { name: "Goblet Squat", target: "3 × 12-15", start: "35 lb DB", prog: "Higher-rep quad finisher, different angle than Day 1" },
       { name: "Seated Calf Raise", target: "4 × 15-20", start: "70 lbs", prog: "Different angle than Day 1's standing raise - failure on the last set" }
     ],
     finisher: null,
@@ -389,13 +412,13 @@ const PROGRAM = {
       "Shoulder dislocates (band or PVC) - 10 reps"
     ],
     exercises: [
-      { name: "Standing Barbell Overhead Press", target: "4 × 5-8", start: "45 lbs", prog: "Primary shoulder lift - true failure on the final set" },
-      { name: "Incline DB Press", target: "3 × 8-10", start: "35 lb DBs", prog: "Second chest movement this week, different angle than Day 2" },
-      { name: "Cable Lateral Raise", target: "3 × 12-15", start: "15 lbs", prog: "Constant tension - failure on the last set" },
-      { name: "Rear Delt Fly", target: "3 × 12-15", start: "15 lb DBs", prog: "Rear delt focus, controlled tempo" },
+      { name: "Standing Barbell Overhead Press", target: "4 × 5-8", start: "55 lbs", prog: "Primary shoulder lift - true failure on the final set" },
+      { name: "Incline DB Press", target: "3 × 8-10", start: "45 lb DBs", fresh: true, prog: "Second chest movement this week, different angle than Day 2" },
+      { name: "Cable Lateral Raise", target: "3 × 12-15", start: "10 lbs", prog: "Constant tension - failure on the last set" },
+      { name: "Rear Delt Fly", target: "3 × 12-15", start: "60 lbs", prog: "Rear delt focus, controlled tempo" },
       { name: "Dips", target: "3 × 8-10", start: "Bodyweight (0 lbs added)", prog: "Lean forward slightly for chest/triceps emphasis" },
       { name: "Close-Grip Bench Press", target: "3 × 8-10", start: "55 lbs", prog: "Primary triceps compound this day" },
-      { name: "Overhead Cable Triceps Extension", target: "2 × 12-15", start: "30 lbs", prog: "Finisher - full stretch at the bottom" }
+      { name: "Overhead Cable Triceps Extension", target: "2 × 12-15", start: "25 lbs", prog: "Finisher - full stretch at the bottom" }
     ],
     finisher: null,
     cooldown: [
@@ -412,12 +435,11 @@ const PROGRAM = {
       "Cat-cow - 1 min"
     ],
     exercises: [
-      { name: "Barbell Row", target: "4 × 6-8", start: "95 lbs", prog: "Primary back lift this day - push the final set to failure" },
-      { name: "Lat Pulldown (wide grip)", target: "3 × 8-10", start: "110 lbs", prog: "Different grip than Day 3 - lat width focus" },
-      { name: "Face Pulls", target: "3 × 12-15", start: "40 lbs", prog: "Rear delt/upper back - squeeze at the face" },
+      { name: "Barbell Row", target: "4 × 6-8", start: "75 lbs", prog: "Primary back lift this day - push the final set to failure" },
+      { name: "Lat Pulldown (wide grip)", target: "3 × 8-10", start: "125 lbs", prog: "Different grip than Day 3 - lat width focus" },
+      { name: "Face Pulls", target: "3 × 12-15", start: "55 lbs", prog: "Rear delt/upper back - squeeze at the face" },
       { name: "Incline DB Curl", target: "3 × 8-10", start: "20 lb DBs", prog: "Primary biceps lift this day - deep stretch at the bottom" },
       { name: "Preacher Curl", target: "3 × 12-15", start: "40 lbs", prog: "Isolation - no momentum, failure on the last set" },
-      { name: "Weighted Sit-Up", target: "3 × 12-15", start: "10 lb plate", prog: "Abs finisher - controlled through the full range" },
       { name: "Plank", target: "3 x 45-60 sec hold", start: "Bodyweight (0 lbs added)", prog: "Hold with a neutral spine; log hold time in the notes field" }
     ],
     finisher: null,
@@ -490,13 +512,31 @@ function updateDraft(dayName, exName, setIdx, field, value) {
   if (!state.drafts[dayName][exName][setIdx]) state.drafts[dayName][exName][setIdx] = {};
   state.drafts[dayName][exName][setIdx][field] = value;
 }
+function escapeHtml(s) {
+  return String(s == null ? "" : s)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+function getDraftNotes(dayName) {
+  return (state.drafts && state.drafts[dayName] && state.drafts[dayName].__notes) || "";
+}
+function getLastNoteForDay(dayName) {
+  for (let i = state.history.length - 1; i >= 0; i--) {
+    const h = state.history[i];
+    if (h.day === dayName && h.notes && h.program === PROGRAM_VERSION) return h;
+  }
+  return null;
+}
 function clearDraftsForDay(dayName) {
   if (state.drafts) delete state.drafts[dayName];
 }
 
 // Builds the blue "last week" note: what you actually logged last time, plus
 // what to do this week based on those numbers.
-function buildWeeklyNote(ex, last, suggestion) {
+function buildWeeklyNote(ex, last, suggestion, lastAny) {
+  if (!last && ex.fresh && lastAny && lastAny.sets.length) {
+    const old = lastAny.sets.map(s => `${s.weight || "?"}×${s.reps || "?"}`).join(", ");
+    return `<div class="week-note">Before: ${old}. This program uses a lower rep range, so start at ${ex.start.replace(/[^0-9.]/g, "") ? ex.start : "the weight shown"} and we'll track from here.</div>`;
+  }
   if (!last || !last.sets.length) {
     return `<div class="week-note">Start workout with these weights and we'll determine notes next week.</div>`;
   }
@@ -520,9 +560,12 @@ function buildWeeklyNote(ex, last, suggestion) {
   return `<div class="week-note">Last week: ${setSummary} → ${directive}</div>`;
 }
 
-function getLastLog(exName) {
+const PROGRAM_VERSION = "lpp";
+
+function getLastLog(exName, newProgramOnly) {
   for (let i = state.history.length - 1; i >= 0; i--) {
     const h = state.history[i];
+    if (newProgramOnly && h.program !== PROGRAM_VERSION) continue;
     const found = h.exercises.find(e => e.name === exName);
     if (found) return found;
   }
@@ -646,7 +689,10 @@ function render() {
   }
 
   dayData.exercises.forEach((ex, idx) => {
-    const last = getLastLog(ex.name);
+    // "fresh" lifts changed rep range in the new program, so old-program logs
+    // don't drive the suggestion; the program's own starting weight does.
+    const lastAny = getLastLog(ex.name, false);
+    const last = ex.fresh ? getLastLog(ex.name, true) : lastAny;
     const suggestion = getSuggestion(ex, last);
     const card = document.createElement("div");
     card.className = "exercise-card";
@@ -717,7 +763,7 @@ function render() {
       }
     }
 
-    const weekNoteHtml = buildWeeklyNote(ex, last, suggestion) || "";
+    const weekNoteHtml = buildWeeklyNote(ex, last, suggestion, lastAny) || "";
 
     card.innerHTML = `
       <div class="ex-head">
@@ -774,6 +820,26 @@ function render() {
     `;
     main.appendChild(cd);
   }
+
+  const notesBlock = document.createElement("div");
+  notesBlock.className = "section-block";
+  notesBlock.innerHTML = `
+    <div class="section-title">Notes</div>
+    ${(() => {
+      const prev = getLastNoteForDay(activeDay);
+      return prev ? `<div class="week-note" style="margin:0 0 10px; white-space:pre-wrap;">Last time (${escapeHtml(prev.date)}): ${escapeHtml(prev.notes)}</div>` : "";
+    })()}
+    <textarea class="notes-field" id="sessionNotes" placeholder="How did it feel? Anything to remember for next time..."></textarea>
+  `;
+  main.appendChild(notesBlock);
+  const notesEl = notesBlock.querySelector("#sessionNotes");
+  notesEl.value = getDraftNotes(activeDay);
+  notesEl.oninput = async () => {
+    if (!state.drafts) state.drafts = {};
+    if (!state.drafts[activeDay]) state.drafts[activeDay] = {};
+    state.drafts[activeDay].__notes = notesEl.value;
+    await saveState();
+  };
 }
 
 function showToast(msg, isError) {
@@ -816,8 +882,12 @@ async function handleSave() {
       date: new Date().toISOString().slice(0, 10),
       day: activeDay,
       label: dayData.label,
+      program: PROGRAM_VERSION,
       exercises
     };
+    const notesInput = document.getElementById("sessionNotes");
+    const notesText = notesInput ? notesInput.value.trim() : "";
+    if (notesText) entry.notes = notesText;
 
     state.history.push(entry);
     clearDraftsForDay(activeDay);
@@ -831,6 +901,7 @@ async function handleSave() {
 
     // reset inputs
     document.querySelectorAll(".wt-input, .reps-input").forEach(i => i.value = "");
+    if (notesInput) notesInput.value = "";
     document.querySelectorAll(".exercise-card").forEach(c => {
       c.classList.remove("done");
       c.querySelector(".check-btn").classList.remove("checked");
@@ -862,7 +933,7 @@ init();
 
 // ---------- History view ----------
 let showingHistory = false;
-let historySubTab = "log"; // "log" | "trends"
+let historySubTab = "log"; // "log" | "trends" | "notes"
 
 function renderHistoryItemView(item, h, index) {
   const exLines = h.exercises.map(e => {
@@ -873,6 +944,7 @@ function renderHistoryItemView(item, h, index) {
     <div class="h-date">${h.date}</div>
     <div class="h-day">${h.label}</div>
     ${exLines}
+    ${h.notes ? `<div class="h-notes">${escapeHtml(h.notes)}</div>` : ""}
     <div style="display:flex; gap:8px; margin-top:10px;">
       <button class="h-edit-btn" style="flex:1;">Edit</button>
       <button class="h-delete-btn" style="flex:1; background:rgba(179,55,43,0.08); color:var(--danger); border:1px solid rgba(179,55,43,0.28); border-radius:999px; padding:9px 14px; font-family:var(--sans); font-size:13px; font-weight:600;">Delete</button>
@@ -910,6 +982,7 @@ function renderHistoryItemEdit(item, h, index) {
     <div class="h-date">${h.date}</div>
     <div class="h-day">${h.label}</div>
     ${exEditHtml}
+    <div class="edit-ex-block"><div class="edit-ex-name">Notes</div><textarea class="notes-field edit-notes">${escapeHtml(h.notes || "")}</textarea></div>
     <div style="display:flex; gap:8px; margin-top:12px;">
       <button class="btn btn-secondary h-cancel-btn" style="padding:10px; font-size:13px;">Cancel</button>
       <button class="btn btn-primary h-save-btn" style="padding:10px; font-size:13px;">Save changes</button>
@@ -924,6 +997,11 @@ function renderHistoryItemEdit(item, h, index) {
       const field = inp.classList.contains("edit-wt") ? "weight" : "reps";
       h.exercises[exIdx].sets[sIdx][field] = inp.value;
     });
+    const notesEdit = item.querySelector(".edit-notes");
+    if (notesEdit) {
+      const v = notesEdit.value.trim();
+      if (v) h.notes = v; else delete h.notes;
+    }
     const r = await saveState();
     if (!r.ok) {
       showToast("Save failed: " + (r.error || "unknown error"), true);
@@ -948,6 +1026,24 @@ function renderHistoryLog(main) {
       renderHistoryItemView(item, h, realIndex);
       main.appendChild(item);
     });
+}
+
+function renderHistoryNotes(main) {
+  const withNotes = state.history.filter(h => h.notes);
+  if (!withNotes.length) {
+    main.innerHTML += `<div class="empty">No notes yet.<br>Add one at the bottom of any workout and it will show up here.</div>`;
+    return;
+  }
+  [...withNotes].reverse().forEach(h => {
+    const card = document.createElement("div");
+    card.className = "history-item";
+    card.innerHTML = `
+      <div class="h-date">${escapeHtml(h.date)}</div>
+      <div class="h-day">${escapeHtml(h.label)}</div>
+      <div class="h-notes" style="margin-top:0;">${escapeHtml(h.notes)}</div>
+    `;
+    main.appendChild(card);
+  });
 }
 
 function renderHistoryTrends(main) {
@@ -1061,6 +1157,7 @@ function renderHistory() {
   subtabs.innerHTML = `
     <button class="history-subtab ${historySubTab === "log" ? "active" : ""}" data-tab="log">Log</button>
     <button class="history-subtab ${historySubTab === "trends" ? "active" : ""}" data-tab="trends">Trends</button>
+    <button class="history-subtab ${historySubTab === "notes" ? "active" : ""}" data-tab="notes">Notes</button>
   `;
   main.appendChild(subtabs);
   subtabs.querySelectorAll(".history-subtab").forEach(btn => {
@@ -1070,7 +1167,8 @@ function renderHistory() {
     };
   });
 
-  if (historySubTab === "log") renderHistoryLog(main);
+  if (historySubTab === "notes") renderHistoryNotes(main);
+  else if (historySubTab === "log") renderHistoryLog(main);
   else renderHistoryTrends(main);
 }
 
